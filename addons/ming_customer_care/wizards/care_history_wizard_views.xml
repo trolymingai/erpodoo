@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_care_history_wizard_form" model="ir.ui.view">
+        <field name="name">ming.care.history.wizard.form</field>
+        <field name="model">ming.care.history.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Ghi nhận kết quả chăm sóc">
+                <sheet>
+                    <group string="Thông tin khách hàng" col="4">
+                        <field name="task_id" invisible="1"/>
+                        <field name="partner_id" readonly="1" string="Khách hàng"/>
+                        <field name="branch_id" readonly="1" string="Chi nhánh"/>
+                        <field name="call_status" string="Kết quả cuộc gọi"/>
+                        <field
+                            name="follow_up_date"
+                            string="Ngày hẹn gọi lại"
+                            invisible="call_status != 'callback_2'"
+                            required="call_status == 'callback_2'"
+                        />
+                    </group>
+                    <group string="Thông tin xử lý thêm" col="4">
+                        <field name="lost_reason" string="Lý do mất khách"/>
+                        <field name="manager_action_type" string="Hướng xử lý của quản lý"/>
+                    </group>
+                    <group string="Ghi chú chăm sóc" col="4">
+                        <field name="note" nolabel="1" colspan="4" string="Ghi chú chăm sóc"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_save_history" type="object" string="Lưu kết quả" class="btn-primary"/>
+                    <button string="Đóng" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

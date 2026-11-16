@@ -1,0 +1,19 @@
+# Backups and database dumps
+backups/
+*.zip
+*.tar.gz
+*.sql
+*.dump
+
+# Temporary staging and backup versions
+staging/
+addons/*_previous_*
+*.pyc
+__pycache__/
+.DS_Store
+
+# Runtime data & logs
+*.log
+data/
+filestore/
+sessions/

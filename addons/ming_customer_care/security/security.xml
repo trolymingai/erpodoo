@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_ming_cskh_staff" model="res.groups">
+        <field name="name">Ming CSKH Staff</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_ming_branch_manager" model="res.groups">
+        <field name="name">Ming Branch Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_ming_cskh_staff'))]"/>
+    </record>
+
+    <record id="group_ming_founder_admin" model="res.groups">
+        <field name="name">Ming Founder/Admin</field>
+        <field name="implied_ids" eval="[(4, ref('group_ming_branch_manager'))]"/>
+    </record>
+</odoo>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_customer_import_wizard_form" model="ir.ui.view">
+        <field name="name">ming.customer.import.wizard.form</field>
+        <field name="model">ming.customer.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Nhập dữ liệu / kiểm tra trước">
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        Hệ thống hiện đã có <b>dữ liệu khách hàng thật</b>. Mỗi lần nhập mới phải backup và chạy kiểm tra trước; hệ thống không tự động xóa khách hàng hoặc ghi đè ghi chú ERP.
+                    </div>
+                    <group string="Tập tin và phạm vi nhập" col="4">
+                        <field name="file_name" invisible="1"/>
+                        <field name="file" filename="file_name" string="Tập tin dữ liệu"/>
+                        <field name="import_type" string="Loại dữ liệu"/>
+                        <field name="branch_id" string="Chi nhánh"/>
+                        <field name="dry_run" string="Chỉ kiểm tra, chưa ghi dữ liệu"/>
+                    </group>
+                    <group string="Kết quả kiểm tra / nhập liệu" col="4">
+                        <field name="result" readonly="1" string="Kết quả nhập liệu" nolabel="1" colspan="4"/>
+                    </group>
+                    <group string="Tùy chọn an toàn" col="4">
+                        <field name="allow_contact_updates"/>
+                    </group>
+                    <div class="alert alert-info" role="alert">
+                        Mặc định không ghi đè tên, SĐT hoặc email đã có. Riêng cột ghi chú đã cấu hình làm tên hiển thị sẽ được ưu tiên cho tên khách. Ghi chú ERP và ghi chú chăm sóc luôn được giữ nguyên.
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_import" type="object" string="Chạy kiểm tra / nhập liệu" class="btn-primary"/>
+                    <button string="Đóng" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ming_pos_import_batch_list" model="ir.ui.view">
+        <field name="name">ming.pos.import.batch.list</field>
+        <field name="model">ming.pos.import.batch</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="name" string="Tên đợt nhập"/>
+                <field name="file_name" string="Tập tin"/>
+                <field name="uploaded_by" string="Người tải lên"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="total_rows" string="Tổng dòng"/>
+                <field name="success_rows" string="Dòng xử lý được"/>
+                <field name="failed_rows" string="Dòng lỗi"/>
+                <field name="duplicate_rows" string="Dòng trùng"/>
+                <field name="invalid_phone_rows" string="SĐT sai"/>
+                <field name="unmatched_branch_rows" string="Chi nhánh không khớp"/>
+                <field name="dry_run" string="Kiểm tra thử"/>
+                <field name="state" string="Trạng thái"/>
+                <field name="started_at" string="Bắt đầu"/>
+                <field name="finished_at" string="Kết thúc"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_pos_import_batch_form" model="ir.ui.view">
+        <field name="name">ming.pos.import.batch.form</field>
+        <field name="model">ming.pos.import.batch</field>
+        <field name="arch" type="xml">
+            <form string="Lô import POS" create="false">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Chỉ dùng màn này để xem lịch sử import. Khi import dữ liệu thật, cần backup DB/filestore trước và chạy dry-run trước khi ghi dữ liệu.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" string="Tên đợt import" readonly="1"/>
+                            <field name="file_name" string="Tập tin" readonly="1"/>
+                            <field name="uploaded_by" string="Người tải lên" readonly="1"/>
+                            <field name="branch_id" string="Chi nhánh" readonly="1"/>
+                            <field name="state" string="Trạng thái" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="total_rows" string="Tổng dòng" readonly="1"/>
+                            <field name="success_rows" string="Dòng xử lý được" readonly="1"/>
+                            <field name="failed_rows" string="Dòng lỗi" readonly="1"/>
+                            <field name="duplicate_rows" string="Dòng trùng" readonly="1"/>
+                            <field name="invalid_phone_rows" string="SĐT sai" readonly="1"/>
+                            <field name="unmatched_branch_rows" string="Chi nhánh không khớp" readonly="1"/>
+                            <field name="dry_run" string="Kiểm tra thử" readonly="1"/>
+                            <field name="started_at" string="Bắt đầu" readonly="1"/>
+                            <field name="finished_at" string="Kết thúc" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Tóm tắt lỗi">
+                        <field name="error_summary" string="Tóm tắt lỗi" readonly="1"/>
+                    </group>
+                    <field name="error_ids" readonly="1" string="Chi tiết lỗi">
+                        <list create="false" edit="false" delete="false">
+                            <field name="row_number" string="Dòng"/>
+                            <field name="error_message" string="Lỗi"/>
+                            <field name="raw_data" string="Dữ liệu gốc"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_customer_import_wizard" model="ir.actions.act_window">
+        <field name="name">Nhập dữ liệu</field>
+        <field name="res_model">ming.customer.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_ming_pos_import_batch" model="ir.actions.act_window">
+        <field name="name">Lịch sử import POS</field>
+        <field name="res_model">ming.pos.import.batch</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+</odoo>

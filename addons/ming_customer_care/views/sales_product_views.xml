@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_sales_product_line_search" model="ir.ui.view">
+        <field name="name">ming.sales.product.line.search</field>
+        <field name="model">ming.sales.product.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="branch_name" string="Chi nhánh"/>
+                <field name="product_code" string="Mã sản phẩm"/>
+                <field name="product_name" string="Tên sản phẩm"/>
+                <field name="period_start" string="Từ ngày"/>
+                <filter name="has_returns" string="Có trả hàng" domain="[('qty_return','&gt;',0)]"/>
+                <filter name="group_branch" string="Nhóm theo chi nhánh" context="{'group_by':'branch_name'}"/>
+                <filter name="group_product" string="Nhóm theo sản phẩm" context="{'group_by':'product_name'}"/>
+                <filter name="group_period" string="Nhóm theo kỳ" context="{'group_by':'period_start'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ming_sales_product_line_list" model="ir.ui.view">
+        <field name="name">ming.sales.product.line.list</field>
+        <field name="model">ming.sales.product.line</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="period_start" string="Từ ngày"/>
+                <field name="period_end" string="Đến ngày"/>
+                <field name="branch_name" string="Chi nhánh"/>
+                <field name="product_code" string="Mã sản phẩm"/>
+                <field name="product_name" string="Tên sản phẩm"/>
+                <field name="qty_sold" string="Số lượng bán"/>
+                <field name="gross_revenue" string="Doanh thu gộp"/>
+                <field name="qty_return" string="Số lượng trả"/>
+                <field name="return_value" string="Giá trị trả"/>
+                <field name="net_revenue" string="Doanh thu thuần"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_sales_product_line_pivot" model="ir.ui.view">
+        <field name="name">ming.sales.product.line.pivot</field>
+        <field name="model">ming.sales.product.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Sản phẩm và doanh thu">
+                <field name="branch_name" type="row"/>
+                <field name="product_name" type="row"/>
+                <field name="period_start" type="col"/>
+                <field name="qty_sold" type="measure"/>
+                <field name="net_revenue" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_ming_sales_product_line_graph" model="ir.ui.view">
+        <field name="name">ming.sales.product.line.graph</field>
+        <field name="model">ming.sales.product.line</field>
+        <field name="arch" type="xml">
+            <graph string="Sản phẩm và doanh thu" type="bar">
+                <field name="branch_name"/>
+                <field name="net_revenue"/>
+            </graph>
+        </field>
+    </record>
+</odoo>

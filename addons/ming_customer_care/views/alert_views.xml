@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_retention_alert_search" model="ir.ui.view">
+        <field name="name">ming.retention.alert.search</field>
+        <field name="model">ming.retention.alert</field>
+        <field name="arch" type="xml">
+            <search string="Tìm cảnh báo giữ chân">
+                <field name="partner_id" string="Khách hàng" filter_domain="['|', '|', '|', ('partner_id.name', 'ilike', self), ('partner_id.phone', 'ilike', self), ('partner_id.ming_phone_normalized', 'ilike', self), ('partner_id.ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="alert_level" string="Mức cảnh báo"/>
+                <field name="alert_type" string="Nhóm khách"/>
+                <field name="status" string="Trạng thái xử lý"/>
+                <filter name="level1" string="Cảnh báo lần 1" domain="[('alert_level', '=', '1')]"/>
+                <filter name="level2" string="Cảnh báo lần 2" domain="[('alert_level', '=', '2')]"/>
+                <filter name="level3" string="Cảnh báo lần 3" domain="[('alert_level', '=', '3')]"/>
+                <filter name="vip" string="VIP có nguy cơ" domain="[('alert_type', '=', 'vip_at_risk')]"/>
+                <filter name="negative" string="Phản hồi tiêu cực" domain="[('care_task_id.latest_history_id.call_status', '=', 'negative_feedback')]"/>
+                <filter name="pending" string="Chưa xử lý" domain="[('status', '=', 'pending')]"/>
+                <filter name="handled" string="Đã xử lý" domain="[('status', 'in', ('handled', 'converted'))]"/>
+                <filter name="group_branch" string="Nhóm theo chi nhánh" context="{'group_by': 'branch_id'}"/>
+                <filter name="group_level" string="Nhóm theo mức cảnh báo" context="{'group_by': 'alert_level'}"/>
+                <filter name="group_status" string="Nhóm theo trạng thái xử lý" context="{'group_by': 'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ming_retention_alert_tree" model="ir.ui.view">
+        <field name="name">ming.retention.alert.tree</field>
+        <field name="model">ming.retention.alert</field>
+        <field name="arch" type="xml">
+            <list create="false" decoration-danger="alert_level == '3'" decoration-warning="alert_level == '2'">
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="alert_level" string="Mức cảnh báo"/>
+                <field name="alert_type" string="Nhóm khách"/>
+                <field name="care_task_id" string="Công việc liên quan" optional="show"/>
+                <field name="status" string="Trạng thái xử lý"/>
+                <field name="trigger_date" string="Ngày kích hoạt"/>
+                <field name="sms_sent" string="Đã tạo nhật ký SMS" optional="hide"/>
+                <field name="email_sent" string="Đã tạo nhật ký email" optional="hide"/>
+                <field name="lark_sent" string="Đã tạo nhật ký Lark" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_retention_alert_form" model="ir.ui.view">
+        <field name="name">ming.retention.alert.form</field>
+        <field name="model">ming.retention.alert</field>
+        <field name="arch" type="xml">
+            <form string="Cảnh báo giữ chân" create="false">
+                <header>
+                    <button name="action_send_sms" type="object" string="Tạo log SMS"/>
+                    <button name="action_send_email" type="object" string="Tạo log email"/>
+                    <button name="action_send_lark" type="object" string="Tạo log Lark"/>
+                    <button name="action_mark_converted" type="object" string="Đánh dấu đã quay lại" class="btn-primary"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group string="Thông tin cảnh báo" col="4">
+                        <field name="name" readonly="1" string="Tên cảnh báo"/>
+                        <field name="partner_id" readonly="1" string="Khách hàng"/>
+                        <field name="branch_id" readonly="1" string="Chi nhánh"/>
+                        <field name="alert_level" readonly="1" string="Mức cảnh báo"/>
+                        <field name="alert_type" readonly="1" string="Nhóm khách"/>
+                        <field name="trigger_date" readonly="1" string="Ngày kích hoạt"/>
+                        <field name="trigger_reason" readonly="1" string="Lý do kích hoạt"/>
+                        <field name="care_task_id" readonly="1" string="Công việc liên quan"/>
+                        <field name="next_alert_date" readonly="1" string="Ngày cảnh báo tiếp theo"/>
+                        <field name="converted_at" readonly="1" string="Thời điểm quay lại"/>
+                    </group>
+                    <group string="Trạng thái xử lý và log" col="4">
+                        <field name="status" readonly="1" string="Trạng thái xử lý"/>
+                        <field name="sms_sent" readonly="1" string="Đã tạo log SMS"/>
+                        <field name="email_sent" readonly="1" string="Đã tạo log email"/>
+                        <field name="lark_sent" readonly="1" string="Đã tạo log Lark"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_retention_alert" model="ir.actions.act_window">
+        <field name="name">Cảnh báo giữ chân</field>
+        <field name="res_model">ming.retention.alert</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="view_ming_retention_alert_pivot" model="ir.ui.view">
+        <field name="name">ming.retention.alert.pivot</field>
+        <field name="model">ming.retention.alert</field>
+        <field name="arch" type="xml">
+            <pivot string="Cảnh báo giữ chân">
+                <field name="branch_id" type="row"/>
+                <field name="alert_level" type="col"/>
+                <field name="status" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_ming_retention_alert_graph" model="ir.ui.view">
+        <field name="name">ming.retention.alert.graph</field>
+        <field name="model">ming.retention.alert</field>
+        <field name="arch" type="xml">
+            <graph string="Cảnh báo giữ chân" type="bar">
+                <field name="branch_id"/>
+                <field name="alert_level"/>
+            </graph>
+        </field>
+    </record>
+</odoo>

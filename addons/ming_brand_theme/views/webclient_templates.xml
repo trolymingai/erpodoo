@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ming_brand_layout_favicon" inherit_id="web.layout" name="Ming Layout Favicon">
+        <xpath expr="//head/link[@rel='shortcut icon']" position="replace">
+            <link type="image/png" rel="shortcut icon" href="/ming_brand_theme/static/src/img/favicon.png"/>
+        </xpath>
+    </template>
+
+    <template id="ming_brand_backend_markers" inherit_id="web.webclient_bootstrap" name="Ming Backend Bootstrap Marker">
+        <xpath expr="//t[@t-set='body_classname']" position="replace">
+            <t t-set="body_classname" t-value="'o_web_client o_ming_brand_backend'"/>
+        </xpath>
+    </template>
+</odoo>

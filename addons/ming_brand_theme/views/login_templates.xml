@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="ming_brand_login_layout" inherit_id="web.login_layout" name="Ming Branded Login Layout">
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="container-fluid o_ming_login_page">
+                <div class="row g-0 o_ming_login_shell">
+                    <div class="col-lg-6 d-none d-lg-flex o_ming_login_brand_panel">
+                        <div class="o_ming_login_brand_inner">
+                            <img src="/ming_brand_theme/static/src/img/ming_logo_login_transparent.png" alt="Ming Coffee &amp; More" class="o_ming_login_logo_large"/>
+                            <div class="o_ming_login_brand_copy">
+                                <h1>Ming Coffee &amp; More</h1>
+                                <p>Hệ thống quản trị CSKH &amp; vận hành nội bộ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 o_ming_login_form_panel">
+                        <div class="o_ming_login_form_wrap">
+                            <div class="o_ming_login_mobile_brand d-lg-none text-center mb-4">
+                                <img src="/ming_brand_theme/static/src/img/ming_logo_login_transparent.png" alt="Ming Coffee &amp; More" class="o_ming_login_logo_mobile"/>
+                                <h1>Ming Coffee &amp; More</h1>
+                                <p>Hệ thống quản trị CSKH &amp; vận hành nội bộ</p>
+                            </div>
+                            <div class="o_ming_login_card">
+                                <t t-out="0"/>
+                            </div>
+                            <div class="o_ming_login_footer">
+                                © Ming Coffee &amp; More - Internal System
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="ming_brand_login_form_labels" inherit_id="web.login" name="Ming Login Labels">
+        <xpath expr="//label[@for='login']" position="replace">
+            <label for="login" class="form-label d-flex justify-content-between">Email / Tài khoản</label>
+        </xpath>
+        <xpath expr="//input[@name='login']" position="attributes">
+            <attribute name="placeholder">Nhập email hoặc tài khoản</attribute>
+        </xpath>
+        <xpath expr="//label[@for='password']" position="replace">
+            <label for="password" class="form-label">Mật khẩu</label>
+        </xpath>
+        <xpath expr="//input[@name='password']" position="attributes">
+            <attribute name="placeholder">Nhập mật khẩu</attribute>
+        </xpath>
+        <xpath expr="//button[@type='submit' and not(@name)]" position="replace">
+            <button type="submit" class="btn btn-primary o_ming_login_submit">Đăng nhập</button>
+        </xpath>
+    </template>
+</odoo>

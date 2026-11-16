@@ -1,0 +1,124 @@
+$o-ming-primary: #fd9830;
+$o-ming-primary-dark: #ea841c;
+$o-ming-surface: #fff7ef;
+$o-ming-surface-2: #fff4e8;
+$o-ming-border: #f3dcc8;
+$o-ming-text: #1f1f1f;
+$o-ming-muted: #6b6b6b;
+
+.o_web_client {
+    --ming-primary: #{$o-ming-primary};
+    --ming-primary-dark: #{$o-ming-primary-dark};
+    --ming-surface: #{$o-ming-surface};
+    --ming-border: #{$o-ming-border};
+    --ming-text: #{$o-ming-text};
+    --ming-muted: #{$o-ming-muted};
+
+    .btn-primary {
+        background-color: $o-ming-primary;
+        border-color: $o-ming-primary;
+        box-shadow: 0 8px 16px rgba(253, 152, 48, 0.16);
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: $o-ming-primary-dark !important;
+            border-color: $o-ming-primary-dark !important;
+        }
+    }
+
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+        color: $o-ming-primary;
+        border-color: $o-ming-border $o-ming-border #ffffff;
+        box-shadow: inset 0 2px 0 $o-ming-primary;
+    }
+
+    .o_main_navbar {
+        background: linear-gradient(90deg, $o-ming-primary 0%, $o-ming-primary-dark 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 10px 24px rgba(253, 152, 48, 0.18);
+
+        .o_menu_brand,
+        .o_menu_sections .dropdown-toggle,
+        .o_menu_systray .dropdown-toggle,
+        .o_menu_systray .o-dropdown button,
+        .o_navbar_apps_menu .dropdown-toggle,
+        .o-mail-MessagingMenu,
+        .o_switch_company_menu .dropdown-toggle,
+        a,
+        button {
+            color: #fff7ef !important;
+        }
+
+        .o_menu_brand {
+            font-weight: 600;
+        }
+
+        .o_menu_sections {
+            .o_nav_entry,
+            .dropdown-toggle,
+            .nav-link,
+            .btn,
+            button {
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+
+            .o_nav_entry.active,
+            .dropdown-toggle.active,
+            .dropdown-toggle.show,
+            .nav-link.active,
+            .show > .dropdown-toggle,
+            .show > .nav-link {
+                background: rgba(255, 255, 255, 0.16) !important;
+            }
+        }
+
+        .dropdown-item.active,
+        .o_navbar_apps_menu .dropdown-item.active,
+        .o_menu_sections .dropdown-item.active,
+        .o_menu_sections .dropdown-item.selected {
+            color: $o-ming-text !important;
+            background: rgba(255, 255, 255, 0.92);
+        }
+
+        .o_nav_entry,
+        .dropdown-toggle {
+            border-radius: 10px;
+        }
+
+        .o_menu_sections .dropdown-toggle:hover,
+        .o_menu_sections .dropdown-toggle:focus,
+        .o_menu_systray .dropdown-toggle:hover,
+        .o_menu_systray .dropdown-toggle:focus,
+        .o_navbar_apps_menu .dropdown-toggle:hover,
+        .o_navbar_apps_menu .dropdown-toggle:focus {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .o_menu_sections .dropdown-toggle.show,
+        .o_menu_systray .dropdown-toggle.show,
+        .o_navbar_apps_menu .dropdown-toggle.show {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .badge,
+        .o_notification_counter {
+            background: #1ea672 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    .o-dropdown--menu .dropdown-item.active,
+    .o-dropdown--menu .dropdown-item.selected {
+        background-color: rgba(253, 152, 48, 0.12);
+        color: $o-ming-text;
+    }
+
+    .o_form_view .oe_button_box .oe_stat_button,
+    .o_form_view .oe_stat_button {
+        border-radius: 14px;
+    }
+}

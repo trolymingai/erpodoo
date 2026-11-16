@@ -1,0 +1,157 @@
+.o_ming_login_page {
+    min-height: 100vh;
+    background:
+        linear-gradient(135deg, rgba(253, 152, 48, 0.12), rgba(255, 247, 239, 0.95)),
+        #fff7ef;
+    padding: 0;
+}
+
+.o_ming_login_shell {
+    min-height: 100vh;
+}
+
+.o_ming_login_brand_panel {
+    background: linear-gradient(140deg, #fd9830 0%, #ffac54 100%);
+    color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.o_ming_login_brand_inner {
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.o_ming_login_logo_large {
+    width: min(100%, 360px);
+    height: auto;
+    display: block;
+    margin-bottom: 1.5rem;
+    object-fit: contain;
+}
+
+.o_ming_login_brand_copy h1,
+.o_ming_login_mobile_brand h1 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(2rem, 2.8vw, 3rem);
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.o_ming_login_brand_copy p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.o_ming_login_form_panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.o_ming_login_form_wrap {
+    width: 100%;
+    max-width: 480px;
+}
+
+.o_ming_login_mobile_brand h1 {
+    color: #1f1f1f;
+    font-size: 1.9rem;
+}
+
+.o_ming_login_mobile_brand p {
+    color: #6b6b6b;
+    margin-bottom: 0;
+}
+
+.o_ming_login_logo_mobile {
+    width: min(100%, 240px);
+    height: auto;
+    margin: 0 auto 1.5rem;
+    display: block;
+    object-fit: contain;
+}
+
+.o_ming_login_card {
+    background: #ffffff;
+    border: 1px solid #f3dcc8;
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(34, 34, 34, 0.08);
+    padding: 2rem;
+}
+
+.o_ming_login_card .o_database_list,
+.o_ming_login_card .card {
+    max-width: none !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.o_ming_login_card .card-body {
+    padding: 0 !important;
+}
+
+.o_ming_login_card .border-bottom,
+.o_ming_login_card .border-top {
+    border-color: #f3dcc8 !important;
+}
+
+.o_ming_login_card .btn-primary,
+.o_ming_login_submit {
+    background: #fd9830 !important;
+    border-color: #fd9830 !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    min-height: 46px;
+    font-weight: 600;
+    box-shadow: 0 10px 18px rgba(253, 152, 48, 0.22);
+}
+
+.o_ming_login_card .btn-primary:hover,
+.o_ming_login_card .btn-primary:focus,
+.o_ming_login_submit:hover,
+.o_ming_login_submit:focus {
+    background: #ea841c !important;
+    border-color: #ea841c !important;
+}
+
+.o_ming_login_card .form-control {
+    border-radius: 12px;
+    border-color: #f3dcc8;
+    min-height: 44px;
+}
+
+.o_ming_login_card .form-control:focus {
+    border-color: #fd9830;
+    box-shadow: 0 0 0 0.2rem rgba(253, 152, 48, 0.16);
+}
+
+.o_ming_login_card .o_show_password {
+    border-color: #f3dcc8 !important;
+    color: #6b6b6b;
+}
+
+.o_ming_login_footer {
+    margin-top: 1rem;
+    text-align: center;
+    color: #6b6b6b;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 991.98px) {
+    .o_ming_login_form_panel {
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .o_ming_login_card {
+        padding: 1.5rem;
+        border-radius: 14px;
+    }
+}

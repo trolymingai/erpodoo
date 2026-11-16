@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_ming_partner_staff_branch" model="ir.rule">
+        <field name="name">Ming partner: staff branch only</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('ming_branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_partner_manager_branch" model="ir.rule">
+        <field name="name">Ming partner: manager branch only</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('ming_branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_partner_founder_all" model="ir.rule">
+        <field name="name">Ming partner: founder all</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_task_staff_branch" model="ir.rule">
+        <field name="name">Ming task: staff branch only</field>
+        <field name="model_id" ref="model_ming_care_task"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_task_manager_branch" model="ir.rule">
+        <field name="name">Ming task: manager branch only</field>
+        <field name="model_id" ref="model_ming_care_task"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_task_founder_all" model="ir.rule">
+        <field name="name">Ming task: founder all</field>
+        <field name="model_id" ref="model_ming_care_task"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_history_staff_branch" model="ir.rule">
+        <field name="name">Ming history: staff branch only</field>
+        <field name="model_id" ref="model_ming_care_history"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_history_manager_branch" model="ir.rule">
+        <field name="name">Ming history: manager branch only</field>
+        <field name="model_id" ref="model_ming_care_history"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_history_founder_all" model="ir.rule">
+        <field name="name">Ming history: founder all</field>
+        <field name="model_id" ref="model_ming_care_history"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_alert_staff_branch" model="ir.rule">
+        <field name="name">Ming alert: staff branch only</field>
+        <field name="model_id" ref="model_ming_retention_alert"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_alert_manager_branch" model="ir.rule">
+        <field name="name">Ming alert: manager branch only</field>
+        <field name="model_id" ref="model_ming_retention_alert"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_alert_founder_all" model="ir.rule">
+        <field name="name">Ming alert: founder all</field>
+        <field name="model_id" ref="model_ming_retention_alert"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_message_log_staff_branch" model="ir.rule">
+        <field name="name">Ming message log: staff branch only</field>
+        <field name="model_id" ref="model_ming_message_log"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('partner_id.ming_branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_message_log_manager_branch" model="ir.rule">
+        <field name="name">Ming message log: manager branch only</field>
+        <field name="model_id" ref="model_ming_message_log"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('partner_id.ming_branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_message_log_founder_all" model="ir.rule">
+        <field name="name">Ming message log: founder all</field>
+        <field name="model_id" ref="model_ming_message_log"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_import_job_staff_branch" model="ir.rule">
+        <field name="name">Ming import job: staff branch only</field>
+        <field name="model_id" ref="model_ming_import_job"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_import_job_manager_branch" model="ir.rule">
+        <field name="name">Ming import job: manager branch only</field>
+        <field name="model_id" ref="model_ming_import_job"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_import_job_founder_all" model="ir.rule">
+        <field name="name">Ming import job: founder all</field>
+        <field name="model_id" ref="model_ming_import_job"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_import_job_line_manager_branch" model="ir.rule">
+        <field name="name">Ming import job line: manager branch only</field>
+        <field name="model_id" ref="model_ming_import_job_line"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_import_job_line_founder_all" model="ir.rule">
+        <field name="name">Ming import job line: founder all</field>
+        <field name="model_id" ref="model_ming_import_job_line"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_pos_import_batch_staff_branch" model="ir.rule">
+        <field name="name">Ming pos import batch: staff branch only</field>
+        <field name="model_id" ref="model_ming_pos_import_batch"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_pos_import_batch_manager_branch" model="ir.rule">
+        <field name="name">Ming pos import batch: manager branch only</field>
+        <field name="model_id" ref="model_ming_pos_import_batch"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_pos_import_batch_founder_all" model="ir.rule">
+        <field name="name">Ming pos import batch: founder all</field>
+        <field name="model_id" ref="model_ming_pos_import_batch"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_pos_import_error_staff_branch" model="ir.rule">
+        <field name="name">Ming pos import error: staff branch only</field>
+        <field name="model_id" ref="model_ming_pos_import_error"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('batch_id.branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_pos_import_error_manager_branch" model="ir.rule">
+        <field name="name">Ming pos import error: manager branch only</field>
+        <field name="model_id" ref="model_ming_pos_import_error"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('batch_id.branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_pos_import_error_founder_all" model="ir.rule">
+        <field name="name">Ming pos import error: founder all</field>
+        <field name="model_id" ref="model_ming_pos_import_error"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_sales_line_staff_branch" model="ir.rule">
+        <field name="name">Ming sales line: staff branch only</field>
+        <field name="model_id" ref="model_ming_sales_product_line"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">['|', ('branch_id', 'in', user.ming_branch_ids.ids), ('branch_id', '=', False)]</field>
+    </record>
+    <record id="rule_ming_sales_line_manager_branch" model="ir.rule">
+        <field name="name">Ming sales line: manager branch only</field>
+        <field name="model_id" ref="model_ming_sales_product_line"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">['|', ('branch_id', 'in', user.ming_branch_ids.ids), ('branch_id', '=', False)]</field>
+    </record>
+    <record id="rule_ming_sales_line_founder_all" model="ir.rule">
+        <field name="name">Ming sales line: founder all</field>
+        <field name="model_id" ref="model_ming_sales_product_line"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_branch_staff_branch" model="ir.rule">
+        <field name="name">Ming branch: assigned branches</field>
+        <field name="model_id" ref="model_ming_branch"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_branch_manager_branch" model="ir.rule">
+        <field name="name">Ming branch: manager assigned branches</field>
+        <field name="model_id" ref="model_ming_branch"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_branch_founder_all" model="ir.rule">
+        <field name="name">Ming branch: founder all</field>
+        <field name="model_id" ref="model_ming_branch"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_ming_purchase_history_staff_branch" model="ir.rule">
+        <field name="name">Ming purchase history: staff branch only</field>
+        <field name="model_id" ref="model_ming_purchase_history"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_cskh_staff'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_purchase_history_manager_branch" model="ir.rule">
+        <field name="name">Ming purchase history: manager branch only</field>
+        <field name="model_id" ref="model_ming_purchase_history"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_branch_manager'))]"/>
+        <field name="domain_force">[('branch_id', 'in', user.ming_branch_ids.ids)]</field>
+    </record>
+    <record id="rule_ming_purchase_history_founder_all" model="ir.rule">
+        <field name="name">Ming purchase history: founder all</field>
+        <field name="model_id" ref="model_ming_purchase_history"/>
+        <field name="groups" eval="[(4, ref('ming_customer_care.group_ming_founder_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_purchase_history_list" model="ir.ui.view">
+        <field name="name">ming.purchase.history.list</field>
+        <field name="model">ming.purchase.history</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" delete="false">
+                <field name="transaction_date" string="Ngày giao dịch"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="source_system" string="Nguồn dữ liệu"/>
+                <field name="source_file_name" string="Tập tin nguồn"/>
+                <field name="total_spent" string="Tổng chi tiêu"/>
+                <field name="loyalty_points" string="Điểm tích lũy"/>
+                <field name="is_latest" string="Lần mua gần nhất"/>
+                <field name="imported_at" string="Ghi nhận lúc"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_purchase_history_form" model="ir.ui.view">
+        <field name="name">ming.purchase.history.form</field>
+        <field name="model">ming.purchase.history</field>
+        <field name="arch" type="xml">
+            <form string="Lịch sử mua hàng" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id" string="Khách hàng"/>
+                            <field name="branch_id" string="Chi nhánh"/>
+                            <field name="transaction_date" string="Ngày giao dịch"/>
+                            <field name="is_latest" string="Lần mua gần nhất"/>
+                        </group>
+                        <group>
+                            <field name="source_system" string="Nguồn dữ liệu"/>
+                            <field name="source_file_name" string="Tập tin nguồn"/>
+                            <field name="total_spent" string="Tổng chi tiêu"/>
+                            <field name="loyalty_points" string="Điểm tích lũy"/>
+                            <field name="imported_at" string="Ghi nhận lúc"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Đối chiếu nguồn" groups="ming_customer_care.group_ming_founder_admin">
+                            <group>
+                                <field name="source_key" readonly="1"/>
+                                <field name="external_customer_id" readonly="1"/>
+                                <field name="external_customer_code" readonly="1"/>
+                                <field name="import_job_id" readonly="1"/>
+                                <field name="sync_log_id" readonly="1"/>
+                            </group>
+                            <field name="raw_data" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_purchase_history" model="ir.actions.act_window">
+        <field name="name">Lịch sử mua hàng</field>
+        <field name="res_model">ming.purchase.history</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

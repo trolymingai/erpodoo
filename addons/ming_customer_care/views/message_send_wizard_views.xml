@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_send_message_wizard_form" model="ir.ui.view">
+        <field name="name">ming.send.message.wizard.form</field>
+        <field name="model">ming.send.message.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Gửi SMS/Email chăm sóc">
+                <sheet>
+                    <group string="Người nhận" col="4">
+                        <field name="partner_id" readonly="1"/>
+                        <field name="task_id" readonly="1"/>
+                        <field name="channel"/>
+                        <field name="recipient" readonly="1"/>
+                        <field name="consent_status" readonly="1"/>
+                        <field name="safe_mode" readonly="1"/>
+                        <field name="test_mode" readonly="1"/>
+                    </group>
+                    <group string="Nội dung" col="4">
+                        <field name="template_key"/>
+                        <field name="subject" invisible="channel != 'email'"/>
+                        <field name="body" colspan="4"/>
+                    </group>
+                    <group string="Chi phí ước tính" col="4">
+                        <field name="estimated_cost" readonly="1"/>
+                        <field name="currency" readonly="1"/>
+                        <field name="cost_note" readonly="1" colspan="4"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_send" type="object" string="Gửi / ghi log" class="btn-primary"/>
+                    <button string="Đóng" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ming_message_cost_confirm_wizard_form" model="ir.ui.view">
+        <field name="name">ming.message.cost.confirm.wizard.form</field>
+        <field name="model">ming.message.cost.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Xác nhận chi phí gửi tin">
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        Vui lòng kiểm tra chi phí ước tính trước khi gửi thật.
+                    </div>
+                    <group col="4">
+                        <field name="channel" readonly="1"/>
+                        <field name="recipient_count" readonly="1"/>
+                        <field name="unit_cost" readonly="1"/>
+                        <field name="monthly_cost" readonly="1"/>
+                        <field name="estimated_cost" readonly="1"/>
+                        <field name="remaining_budget" readonly="1"/>
+                        <field name="currency" readonly="1"/>
+                    </group>
+                    <group string="Cảnh báo">
+                        <field name="warning_message" readonly="1" nolabel="1"/>
+                    </group>
+                    <field name="send_wizard_id" invisible="1"/>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_send" type="object" string="Xác nhận gửi" class="btn-primary"/>
+                    <button string="Hủy" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

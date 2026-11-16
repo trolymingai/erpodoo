@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_care_history_search" model="ir.ui.view">
+        <field name="name">ming.care.history.search</field>
+        <field name="model">ming.care.history</field>
+        <field name="arch" type="xml">
+            <search string="Tìm lịch sử CSKH">
+                <field name="partner_id" string="Khách hàng" filter_domain="['|', '|', '|', ('partner_id.name', 'ilike', self), ('partner_id.phone', 'ilike', self), ('partner_id.ming_phone_normalized', 'ilike', self), ('partner_id.ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="user_id" string="Nhân viên"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="call_status" string="Kết quả chăm sóc"/>
+                <filter name="negative" string="Phản hồi tiêu cực" domain="[('call_status', '=', 'negative_feedback')]"/>
+                <filter name="callback" string="Hẹn gọi lại" domain="[('call_status', '=', 'callback_2')]"/>
+                <filter name="group_branch" string="Nhóm theo chi nhánh" context="{'group_by': 'branch_id'}"/>
+                <filter name="group_user" string="Nhóm theo nhân viên phụ trách" context="{'group_by': 'user_id'}"/>
+                <filter name="group_status" string="Nhóm theo kết quả chăm sóc" context="{'group_by': 'call_status'}"/>
+                <filter name="group_follow_up" string="Nhóm theo ngày hẹn gọi lại" context="{'group_by': 'follow_up_date'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ming_care_history_tree" model="ir.ui.view">
+        <field name="name">ming.care.history.tree</field>
+        <field name="model">ming.care.history</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="call_datetime" string="Thời điểm chăm sóc"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="task_id" string="Công việc"/>
+                <field name="user_id" string="Người thực hiện"/>
+                <field name="role" string="Vai trò"/>
+                <field name="call_status" string="Kết quả chăm sóc"/>
+                <field name="follow_up_date" string="Ngày hẹn gọi lại"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_care_history_form" model="ir.ui.view">
+        <field name="name">ming.care.history.form</field>
+        <field name="model">ming.care.history</field>
+        <field name="arch" type="xml">
+            <form string="Lịch sử CSKH" create="false">
+                <sheet>
+                    <group string="Thông tin khách hàng" col="4">
+                        <field name="partner_id" readonly="1" string="Khách hàng"/>
+                        <field name="branch_id" readonly="1" string="Chi nhánh"/>
+                        <field name="task_id" readonly="1" string="Công việc liên quan"/>
+                        <field name="call_datetime" readonly="1" string="Thời điểm chăm sóc"/>
+                    </group>
+                    <group string="Kết quả chăm sóc" col="4">
+                       <field name="user_id" readonly="1" string="Người thực hiện"/>
+                       <field name="role" readonly="1" string="Vai trò"/>
+                        <field name="user_role_snapshot" readonly="1" string="Vai trò lúc ghi nhận" groups="ming_customer_care.group_ming_founder_admin"/>
+                        <field name="pipeline_state_snapshot" readonly="1" string="Trạng thái công việc lúc ghi nhận" groups="ming_customer_care.group_ming_founder_admin"/>
+                       <field name="call_status" readonly="1" string="Kết quả cuộc gọi"/>
+                        <field name="follow_up_date" readonly="1" string="Ngày hẹn gọi lại"/>
+                        <field name="lost_reason" readonly="1" string="Lý do mất khách"/>
+                        <field name="manager_action_type" readonly="1" string="Hướng xử lý của quản lý"/>
+                    </group>
+                    <group string="Ghi chú chăm sóc" col="4">
+                        <field name="note" colspan="4" readonly="1" nolabel="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_care_history" model="ir.actions.act_window">
+        <field name="name">Lịch sử CSKH</field>
+        <field name="res_model">ming.care.history</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="view_ming_care_history_pivot" model="ir.ui.view">
+        <field name="name">ming.care.history.pivot</field>
+        <field name="model">ming.care.history</field>
+        <field name="arch" type="xml">
+            <pivot string="Hiệu suất CSKH">
+                <field name="user_id" type="row"/>
+                <field name="branch_id" type="row"/>
+                <field name="call_status" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_ming_care_history_graph" model="ir.ui.view">
+        <field name="name">ming.care.history.graph</field>
+        <field name="model">ming.care.history</field>
+        <field name="arch" type="xml">
+            <graph string="Hiệu suất CSKH" type="bar">
+                <field name="user_id"/>
+                <field name="call_status"/>
+            </graph>
+        </field>
+    </record>
+</odoo>

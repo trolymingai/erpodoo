@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_ming_customer_list" model="ir.ui.view">
+        <field name="name">res.partner.ming.customer.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list create="false" decoration-danger="ming_is_vip and ming_activity_status == 'at_risk'" decoration-warning="ming_activity_status == 'at_risk'">
+                <field name="ming_pos_customer_code" string="Mã khách hàng"/>
+                <field name="name" string="Khách hàng" filter_domain="['|', '|', '|', ('name', 'ilike', self), ('phone', 'ilike', self), ('ming_phone_normalized', 'ilike', self), ('ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="ming_customer_note" string="Ghi chú CSKH"/>
+                <field name="phone" string="Số điện thoại"/>
+                <field name="ming_branch_id" string="Chi nhánh"/>
+                <field name="ming_total_spent" string="Tổng chi tiêu"/>
+                <field name="ming_last_transaction_date" string="Ngày giao dịch cuối"/>
+                <field name="ming_days_absent" string="Số ngày vắng"/>
+                <field name="ming_activity_status" string="Trạng thái khách"/>
+                <field name="ming_alert_level" string="Mức cảnh báo"/>
+                <field name="ming_is_vip" string="VIP"/>
+                <field name="ming_has_been_called" string="Đã gọi"/>
+                <field name="ming_received_voucher" string="Đã nhận voucher"/>
+                <field name="ming_has_returned" string="Đã quay lại"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_res_partner_ming_customer_search" model="ir.ui.view">
+        <field name="name">res.partner.ming.customer.search</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Tìm khách hàng CSKH">
+                  <field name="name" string="Khách hàng" filter_domain="['|', '|', '|', '|', ('name', 'ilike', self), ('phone', 'ilike', self), ('ming_phone_normalized', 'ilike', self), ('ming_pos_customer_code', 'ilike', self), ('ming_customer_note', 'ilike', self)]"/>
+                  <field name="phone" string="Số điện thoại" filter_domain="['|', '|', '|', '|', ('phone', 'ilike', self), ('ming_phone_normalized', 'ilike', self), ('name', 'ilike', self), ('ming_customer_note', 'ilike', self), ('ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="ming_pos_customer_code" string="Mã khách hàng"/>
+                <field name="ming_branch_id" string="Chi nhánh"/>
+                <field name="ming_activity_status" string="Trạng thái khách"/>
+                <field name="ming_has_been_called" string="Đã gọi"/>
+                <field name="ming_received_voucher" string="Đã nhận voucher"/>
+                <field name="ming_has_returned" string="Đã quay lại"/>
+                <filter name="filter_ming_customers" string="Khách hàng CSKH" domain="['|', ('ming_pos_customer_code', '!=', False), '&amp;', ('ming_source_system', '!=', False), ('ming_branch_id', '!=', False)]"/>
+                <filter name="filter_risk" string="Khách có nguy cơ" domain="[('ming_activity_status', '=', 'at_risk')]"/>
+                <filter name="filter_lost" string="Khách đã mất" domain="[('ming_activity_status', '=', 'lost')]"/>
+                <filter name="filter_vip" string="Khách VIP" domain="[('ming_is_vip', '=', True)]"/>
+                <filter name="filter_vip_risk" string="VIP có nguy cơ" domain="[('ming_is_vip', '=', True), ('ming_activity_status', '=', 'at_risk')]"/>
+                <filter name="filter_called" string="Đã gọi" domain="[('ming_has_been_called', '=', True)]"/>
+                <filter name="filter_voucher" string="Đã nhận voucher" domain="[('ming_received_voucher', '=', True)]"/>
+                <filter name="filter_returned" string="Đã quay lại" domain="[('ming_has_returned', '=', True)]"/>
+                <filter name="group_branch" string="Nhóm theo chi nhánh" context="{'group_by': 'ming_branch_id'}"/>
+                <filter name="group_status" string="Nhóm theo trạng thái khách" context="{'group_by': 'ming_activity_status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_partner_form_ming_customer_care" model="ir.ui.view">
+        <field name="name">res.partner.form.ming.customer.care</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Ming Customer Care">
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="%(ming_customer_care.action_ming_care_history)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-history"
+                            context="{'search_default_partner_id': id, 'create': False}"
+                        >
+                            <span class="o_stat_text">Lịch sử CSKH</span>
+                        </button>
+                        <button
+                            name="%(ming_customer_care.action_ming_retention_alert)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-bell"
+                            context="{'search_default_partner_id': id, 'create': False}"
+                        >
+                            <span class="o_stat_text">Cảnh báo giữ chân</span>
+                        </button>
+                        <button
+                            name="%(ming_customer_care.action_ming_care_task)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-phone"
+                            context="{'search_default_partner_id': id, 'create': False}"
+                        >
+                            <span class="o_stat_text">C&#244;ng vi&#7879;c CSKH</span>
+                        </button>
+                        <button name="action_ming_send_sms" type="object" class="oe_stat_button" icon="fa-commenting-o">
+                            <span class="o_stat_text">Gửi SMS</span>
+                        </button>
+                        <button name="action_ming_send_email" type="object" class="oe_stat_button" icon="fa-envelope-o">
+                            <span class="o_stat_text">Gửi Email</span>
+                        </button>
+                    </div>
+                    <notebook>
+                        <page string="Thông tin cơ bản">
+                            <group string="Thông tin cơ bản" col="4">
+                                <field name="name" string="Tên khách"/>
+                                <field name="phone" string="Số điện thoại"/>
+                                <field name="ming_pos_customer_code" string="Mã khách hàng" readonly="1"/>
+                                <field name="email" string="Email"/>
+                                <field name="ming_branch_id" string="Chi nhánh" readonly="1"/>
+                                <field name="ming_source_system" string="Nguồn dữ liệu" readonly="1"/>
+                                <field name="ming_allow_sms" string="Cho phép SMS"/>
+                                <field name="ming_allow_email" string="Cho phép email"/>
+                                <field name="ming_do_not_contact" string="Không liên hệ"/>
+                                <field name="ming_invalid_phone" string="Số điện thoại không hợp lệ" readonly="1"/>
+                                <field name="ming_invalid_email" string="Email không hợp lệ" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Thông tin chi tiêu">
+                            <group string="Thông tin chi tiêu" col="4">
+                                <field name="ming_total_spent" string="Tổng chi tiêu" readonly="1"/>
+                                <field name="ming_loyalty_points" string="Điểm tích lũy" readonly="1"/>
+                                <field name="ming_last_transaction_date" string="Ngày giao dịch cuối" readonly="1"/>
+                                <field name="ming_days_absent" string="Số ngày chưa quay lại" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Trạng thái và theo dõi CSKH">
+                            <group string="Trạng thái khách hàng" col="4">
+                                <field name="ming_activity_status" string="Trạng thái khách" readonly="1"/>
+                                <field name="ming_is_vip" string="Khách VIP" readonly="1"/>
+                                <field name="ming_vip_rank" string="Thứ hạng VIP" readonly="1"/>
+                                <field name="ming_alert_level" string="Mức cảnh báo hiện tại" readonly="1"/>
+                            </group>
+                            <group string="Theo dõi chăm sóc" col="4">
+                                <field name="ming_has_been_called" string="Đã gọi"/>
+                                <field name="ming_received_voucher" string="Đã nhận voucher"/>
+                                <field name="ming_has_returned" string="Đã quay lại"/>
+                                <field name="ming_returned_at" string="Ngày quay lại" readonly="1"/>
+                            </group>
+                            <group string="Thông tin cập nhật" col="4">
+                                <field name="ming_last_import_job_id" string="Đợt import gần nhất" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Lịch sử mua hàng">
+                            <field name="ming_purchase_history_ids" readonly="1" nolabel="1">
+                                <list create="false" edit="false" delete="false">
+                                    <field name="transaction_date" string="Ngày giao dịch"/>
+                                    <field name="source_system" string="Nguồn dữ liệu"/>
+                                    <field name="total_spent" string="Tổng chi tiêu"/>
+                                    <field name="loyalty_points" string="Điểm tích lũy"/>
+                                    <field name="is_latest" string="Lần mua gần nhất"/>
+                                    <field name="imported_at" string="Ghi nhận lúc"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Ghi chú nội bộ">
+                            <group string="Ghi chú nội bộ" col="4">
+                                <field name="comment" nolabel="1" colspan="4" placeholder="Ghi chú nội bộ phục vụ CSKH"/>
+                                <field name="ming_customer_note" string="Ghi chú chăm sóc nội bộ"/>
+                            </group>
+                        </page>
+                        <page string="Kỹ thuật" groups="ming_customer_care.group_ming_founder_admin">
+                            <group string="Thông tin kỹ thuật" col="4">
+                                <field name="ming_kiotviet_customer_id" string="Mã khách KiotViet" readonly="1"/>
+                                <field name="ming_phone_normalized" string="Số điện thoại chuẩn hóa" readonly="1"/>
+                                <field name="ming_last_sync_at" string="Lần đồng bộ gần nhất" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_ming_customer_form" model="ir.ui.view">
+        <field name="name">res.partner.ming.customer.form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Khách hàng CSKH" create="false">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="%(ming_customer_care.action_ming_care_history)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-history"
+                            context="{'search_default_partner_id': id, 'create': False}"
+                        >
+                            <span class="o_stat_text">Lịch sử CSKH</span>
+                        </button>
+                        <button
+                            name="%(ming_customer_care.action_ming_retention_alert)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-bell"
+                            context="{'search_default_partner_id': id, 'create': False}"
+                        >
+                            <span class="o_stat_text">Cảnh báo giữ chân</span>
+                        </button>
+                        <button
+                            name="%(ming_customer_care.action_ming_care_task)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-phone"
+                            context="{'search_default_partner_id': id, 'create': False}"
+                        >
+                            <span class="o_stat_text">C&#244;ng vi&#7879;c CSKH</span>
+                        </button>
+                        <button name="action_ming_send_sms" type="object" class="oe_stat_button" icon="fa-commenting-o">
+                            <span class="o_stat_text">Gửi SMS</span>
+                        </button>
+                        <button name="action_ming_send_email" type="object" class="oe_stat_button" icon="fa-envelope-o">
+                            <span class="o_stat_text">Gửi Email</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <notebook>
+                        <page string="Thông tin cơ bản">
+                            <group string="Thông tin cơ bản" col="4">
+                                <field name="name" string="Tên khách"/>
+                                <field name="phone" string="Số điện thoại"/>
+                                <field name="ming_pos_customer_code" string="Mã khách hàng" readonly="1"/>
+                                <field name="email" string="Email"/>
+                                <field name="ming_branch_id" string="Chi nhánh" readonly="1"/>
+                                <field name="ming_source_system" string="Nguồn dữ liệu" readonly="1"/>
+                                <field name="ming_allow_sms" string="Cho phép SMS"/>
+                                <field name="ming_allow_email" string="Cho phép email"/>
+                                <field name="ming_do_not_contact" string="Không liên hệ"/>
+                                <field name="ming_invalid_phone" string="Số điện thoại không hợp lệ" readonly="1"/>
+                                <field name="ming_invalid_email" string="Email không hợp lệ" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Thông tin chi tiêu">
+                            <group string="Thông tin chi tiêu" col="4">
+                                <field name="ming_total_spent" string="Tổng chi tiêu" readonly="1"/>
+                                <field name="ming_loyalty_points" string="Điểm tích lũy" readonly="1"/>
+                                <field name="ming_last_transaction_date" string="Ngày giao dịch cuối" readonly="1"/>
+                                <field name="ming_days_absent" string="Số ngày chưa quay lại" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Trạng thái và theo dõi CSKH">
+                            <group string="Trạng thái khách hàng" col="4">
+                                <field name="ming_activity_status" string="Trạng thái khách" readonly="1"/>
+                                <field name="ming_is_vip" string="Khách VIP" readonly="1"/>
+                                <field name="ming_alert_level" string="Mức cảnh báo hiện tại" readonly="1"/>
+                            </group>
+                            <group string="Theo dõi chăm sóc" col="4">
+                                <field name="ming_has_been_called" string="Đã gọi"/>
+                                <field name="ming_received_voucher" string="Đã nhận voucher"/>
+                                <field name="ming_has_returned" string="Đã quay lại"/>
+                                <field name="ming_returned_at" string="Ngày quay lại" readonly="1"/>
+                            </group>
+                            <group string="Thông tin cập nhật" col="4">
+                                <field name="ming_last_import_job_id" string="Đợt import gần nhất" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Lịch sử mua hàng">
+                            <field name="ming_purchase_history_ids" readonly="1" nolabel="1">
+                                <list create="false" edit="false" delete="false">
+                                    <field name="transaction_date" string="Ngày giao dịch"/>
+                                    <field name="source_system" string="Nguồn dữ liệu"/>
+                                    <field name="total_spent" string="Tổng chi tiêu"/>
+                                    <field name="loyalty_points" string="Điểm tích lũy"/>
+                                    <field name="is_latest" string="Lần mua gần nhất"/>
+                                    <field name="imported_at" string="Ghi nhận lúc"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Ghi chú nội bộ">
+                            <group string="Ghi chú nội bộ" col="4">
+                                <field name="comment" nolabel="1" colspan="4" placeholder="Ghi chú nội bộ phục vụ CSKH"/>
+                                <field name="ming_customer_note" string="Ghi chú chăm sóc nội bộ"/>
+                            </group>
+                        </page>
+                        <page string="Kỹ thuật" groups="ming_customer_care.group_ming_founder_admin">
+                            <group string="Thông tin kỹ thuật" col="4">
+                                <field name="ming_kiotviet_customer_id" string="Mã khách KiotViet" readonly="1"/>
+                                <field name="ming_phone_normalized" string="Số điện thoại chuẩn hóa" readonly="1"/>
+                                <field name="ming_last_sync_at" string="Lần đồng bộ gần nhất" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_customer_list" model="ir.actions.act_window">
+        <field name="name">Khách hàng</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_res_partner_ming_customer_search"/>
+        <field name="domain">['|', ('ming_pos_customer_code', '!=', False), '&amp;', ('ming_source_system', '!=', False), ('ming_branch_id', '!=', False)]</field>
+        <field name="context">{'search_default_filter_ming_customers': 1, 'create': False}</field>
+    </record>
+
+    <record id="action_ming_vip_risk_customers" model="ir.actions.act_window">
+        <field name="name">Khách VIP có nguy cơ</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_res_partner_ming_customer_search"/>
+        <field name="domain">['&amp;', ('ming_is_vip', '=', True), '&amp;', ('ming_activity_status', '=', 'at_risk'), '|', ('ming_pos_customer_code', '!=', False), '&amp;', ('ming_source_system', '!=', False), ('ming_branch_id', '!=', False)]</field>
+        <field name="context">{'search_default_filter_vip_risk': 1, 'create': False}</field>
+    </record>
+
+    <record id="action_ming_returned_customers" model="ir.actions.act_window">
+        <field name="name">Khách hàng đã quay lại</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_res_partner_ming_customer_search"/>
+        <field name="domain">['&amp;', ('ming_has_returned', '=', True), '|', ('ming_pos_customer_code', '!=', False), '&amp;', ('ming_source_system', '!=', False), ('ming_branch_id', '!=', False)]</field>
+        <field name="context">{'search_default_filter_returned': 1, 'create': False}</field>
+    </record>
+
+    <record id="action_ming_customer_list_list_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_res_partner_ming_customer_list"/>
+        <field name="act_window_id" ref="action_ming_customer_list"/>
+    </record>
+
+    <record id="action_ming_customer_list_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_res_partner_ming_customer_form"/>
+        <field name="act_window_id" ref="action_ming_customer_list"/>
+    </record>
+
+    <record id="action_ming_vip_risk_customers_list_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_res_partner_ming_customer_list"/>
+        <field name="act_window_id" ref="action_ming_vip_risk_customers"/>
+    </record>
+
+    <record id="action_ming_vip_risk_customers_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_res_partner_ming_customer_form"/>
+        <field name="act_window_id" ref="action_ming_vip_risk_customers"/>
+    </record>
+
+    <record id="action_ming_returned_customers_list_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_res_partner_ming_customer_list"/>
+        <field name="act_window_id" ref="action_ming_returned_customers"/>
+    </record>
+
+    <record id="action_ming_returned_customers_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_res_partner_ming_customer_form"/>
+        <field name="act_window_id" ref="action_ming_returned_customers"/>
+    </record>
+</odoo>

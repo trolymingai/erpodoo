@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_external_customer_map_list" model="ir.ui.view">
+        <field name="name">ming.external.customer.map.list</field>
+        <field name="model">ming.external.customer.map</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false">
+                <field name="source_system" string="Nguồn dữ liệu"/>
+                <field name="external_customer_id" string="ID khách ngoài hệ thống"/>
+                <field name="external_customer_code" string="Mã khách ngoài hệ thống"/>
+                <field name="partner_id" string="Khách hàng Odoo"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="last_synced_at" string="Lần đồng bộ gần nhất"/>
+                <field name="active" string="Đang sử dụng"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_external_customer_map_form" model="ir.ui.view">
+        <field name="name">ming.external.customer.map.form</field>
+        <field name="model">ming.external.customer.map</field>
+        <field name="arch" type="xml">
+            <form string="Bản đồ khách hàng ngoài hệ thống">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="source_system" readonly="1"/>
+                            <field name="external_customer_id" readonly="1"/>
+                            <field name="external_customer_code" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="branch_id" readonly="1"/>
+                            <field name="last_synced_at" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Kiểm tra dữ liệu" groups="ming_customer_care.group_ming_founder_admin">
+                            <field name="raw_payload_hash" readonly="1"/>
+                            <field name="raw_payload" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_external_customer_map" model="ir.actions.act_window">
+        <field name="name">Bản đồ dữ liệu khách</field>
+        <field name="res_model">ming.external.customer.map</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_ming_external_sync_log_list" model="ir.ui.view">
+        <field name="name">ming.external.sync.log.list</field>
+        <field name="model">ming.external.sync.log</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" delete="false">
+                <field name="name" string="Lần đồng bộ"/>
+                <field name="source_system" string="Nguồn dữ liệu"/>
+                <field name="sync_type" string="Loại đồng bộ"/>
+                <field name="file_name" string="Tập tin nguồn"/>
+                <field name="total_records" string="Tổng bản ghi"/>
+                <field name="created_count" string="Tạo mới"/>
+                <field name="updated_count" string="Cập nhật"/>
+                <field name="failed_count" string="Lỗi"/>
+                <field name="status" string="Trạng thái"/>
+                <field name="started_at" string="Bắt đầu"/>
+                <field name="finished_at" string="Kết thúc"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_external_sync_log_form" model="ir.ui.view">
+        <field name="name">ming.external.sync.log.form</field>
+        <field name="model">ming.external.sync.log</field>
+        <field name="arch" type="xml">
+            <form string="Nhật ký đồng bộ dữ liệu">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="source_system" readonly="1"/>
+                            <field name="sync_type" readonly="1"/>
+                            <field name="file_name" readonly="1"/>
+                            <field name="status" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="started_at" readonly="1"/>
+                            <field name="finished_at" readonly="1"/>
+                            <field name="total_records" readonly="1"/>
+                            <field name="created_count" readonly="1"/>
+                            <field name="updated_count" readonly="1"/>
+                            <field name="skipped_count" readonly="1"/>
+                            <field name="failed_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Kiểm tra chất lượng dữ liệu">
+                        <field name="duplicate_count" readonly="1"/>
+                        <field name="invalid_phone_count" readonly="1"/>
+                        <field name="unmatched_branch_count" readonly="1"/>
+                        <field name="error_message" readonly="1"/>
+                    </group>
+                    <group string="Liên kết nhập liệu">
+                        <field name="import_job_id" readonly="1"/>
+                        <field name="cursor" readonly="1" groups="ming_customer_care.group_ming_founder_admin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_external_sync_log" model="ir.actions.act_window">
+        <field name="name">Nhật ký đồng bộ</field>
+        <field name="res_model">ming.external.sync.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_ming_import_job_list" model="ir.ui.view">
+        <field name="name">ming.import.job.list</field>
+        <field name="model">ming.import.job</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" delete="false">
+                <field name="name" string="Đợt nhập liệu"/>
+                <field name="import_type" string="Loại dữ liệu"/>
+                <field name="source_file_name" string="Tập tin nguồn"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="total_rows" string="Tổng dòng"/>
+                <field name="success_rows" string="Dòng xử lý được"/>
+                <field name="failed_rows" string="Dòng lỗi"/>
+                <field name="duplicate_rows" string="Dòng trùng"/>
+                <field name="dry_run" string="Kiểm tra thử"/>
+                <field name="status" string="Trạng thái"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_import_job_form" model="ir.ui.view">
+        <field name="name">ming.import.job.form</field>
+        <field name="model">ming.import.job</field>
+        <field name="arch" type="xml">
+            <form string="Đợt nhập liệu">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="import_type" readonly="1"/>
+                            <field name="source_file_name" readonly="1"/>
+                            <field name="branch_id" readonly="1"/>
+                            <field name="uploaded_by" readonly="1"/>
+                            <field name="dry_run" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="total_rows" readonly="1"/>
+                            <field name="success_rows" readonly="1"/>
+                            <field name="failed_rows" readonly="1"/>
+                            <field name="duplicate_rows" readonly="1"/>
+                            <field name="invalid_phone_rows" readonly="1"/>
+                            <field name="unmatched_branch_rows" readonly="1"/>
+                            <field name="status" readonly="1"/>
+                            <field name="sync_log_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Ghi chú">
+                        <field name="note" readonly="1"/>
+                    </group>
+                    <field name="line_ids" readonly="1" string="Chi tiết từng dòng">
+                        <list create="false" edit="false" delete="false">
+                            <field name="row_number" string="Dòng"/>
+                            <field name="operation" string="Thao tác"/>
+                            <field name="status" string="Trạng thái"/>
+                            <field name="external_customer_code" string="Mã khách ngoài hệ thống"/>
+                            <field name="partner_id" string="Khách hàng"/>
+                            <field name="duplicate_found" string="Trùng"/>
+                            <field name="invalid_phone" string="SĐT sai"/>
+                            <field name="unmatched_branch" string="Chi nhánh không khớp"/>
+                            <field name="error_message" string="Lỗi"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_import_job" model="ir.actions.act_window">
+        <field name="name">Nhật ký nhập liệu</field>
+        <field name="res_model">ming.import.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

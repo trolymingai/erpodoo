@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_care_task_search" model="ir.ui.view">
+        <field name="name">ming.care.task.search</field>
+        <field name="model">ming.care.task</field>
+        <field name="arch" type="xml">
+            <search string="T&#236;m c&#244;ng vi&#7879;c CSKH">
+                <field name="partner_id" string="T&#234;n kh&#225;ch" filter_domain="['|', '|', '|', ('partner_id.name', 'ilike', self), ('partner_id.phone', 'ilike', self), ('partner_id.ming_phone_normalized', 'ilike', self), ('partner_id.ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="customer_phone" string="S&#7889; &#273;i&#7879;n tho&#7841;i" filter_domain="['|', ('customer_phone', 'ilike', self), ('partner_id.ming_phone_normalized', 'ilike', self)]"/>
+                <field name="customer_code" string="M&#227; kh&#225;ch h&#224;ng" filter_domain="[('partner_id.ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="branch_id" string="Chi nh&#225;nh"/>
+                <field name="assigned_user_id" string="Nh&#226;n vi&#234;n ph&#7909; tr&#225;ch"/>
+                <field name="task_type" string="Nh&#243;m kh&#225;ch"/>
+                <field name="pipeline_status" string="Tr&#7841;ng th&#225;i x&#7917; l&#253;"/>
+
+                <filter name="today" string="H&#244;m nay" domain="[('due_date', '=', context_today())]"/>
+                <filter name="my_today" string="Vi&#7879;c c&#7911;a t&#244;i h&#244;m nay" domain="[('assigned_user_id', '=', uid), ('due_date', '=', context_today()), ('pipeline_status', 'in', ('pending', 'in_progress'))]"/>
+                <filter name="pending" string="Ch&#432;a x&#7917; l&#253;" domain="[('pipeline_status', '=', 'pending')]"/>
+                <filter name="in_progress" string="&#272;ang x&#7917; l&#253;" domain="[('pipeline_status', '=', 'in_progress')]"/>
+                <filter name="overdue" string="Qu&#225; h&#7841;n" domain="[('due_date', '&lt;', context_today()), ('pipeline_status', 'not in', ('done', 'cancelled'))]"/>
+                <filter name="vip" string="VIP tr&#432;&#7899;c" domain="[('is_vip', '=', True)]"/>
+                <filter name="alert_3" string="C&#7843;nh b&#225;o l&#7847;n 3" domain="[('alert_level', '=', '3')]"/>
+                <filter name="follow_up_today" string="H&#7865;n g&#7885;i l&#7841;i h&#244;m nay" domain="[('task_type', '=', 'follow_up'), ('due_date', '=', context_today()), ('pipeline_status', 'in', ('pending', 'in_progress'))]"/>
+
+                <filter name="alert_1" string="C&#7843;nh b&#225;o l&#7847;n 1" domain="[('alert_level', '=', '1')]"/>
+                <filter name="alert_2" string="C&#7843;nh b&#225;o l&#7847;n 2" domain="[('alert_level', '=', '2')]"/>
+                <filter name="follow_up" string="H&#7865;n g&#7885;i l&#7841;i" domain="[('task_type', '=', 'follow_up')]"/>
+                <filter name="done" string="&#272;&#227; ho&#224;n t&#7845;t" domain="[('pipeline_status', '=', 'done')]"/>
+                <filter name="group_branch" string="Nh&#243;m theo chi nh&#225;nh" context="{'group_by': 'branch_id'}"/>
+                <filter name="group_status" string="Nh&#243;m theo tr&#7841;ng th&#225;i x&#7917; l&#253;" context="{'group_by': 'pipeline_status'}"/>
+                <filter name="group_user" string="Nh&#243;m theo nh&#226;n vi&#234;n ph&#7909; tr&#225;ch" context="{'group_by': 'assigned_user_id'}"/>
+                <filter name="group_follow_up" string="Nh&#243;m theo ng&#224;y h&#7865;n g&#7885;i l&#7841;i" context="{'group_by': 'due_date'}"/>
+                <filter name="group_alert_level" string="Nh&#243;m theo m&#7913;c c&#7843;nh b&#225;o" context="{'group_by': 'alert_level'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ming_care_task_tree" model="ir.ui.view">
+        <field name="name">ming.care.task.tree</field>
+        <field name="model">ming.care.task</field>
+        <field name="arch" type="xml">
+            <list create="false" decoration-danger="priority == '3'" decoration-warning="priority == '2'" default_order="is_vip desc,total_spent desc,priority desc,due_date asc">
+                <field name="priority" string="M&#7913;c &#432;u ti&#234;n"/>
+                <field name="partner_id" string="T&#234;n kh&#225;ch"/>
+                <field name="customer_phone" string="S&#7889; &#273;i&#7879;n tho&#7841;i"/>
+                <field name="customer_code" string="M&#227; kh&#225;ch"/>
+                <field name="branch_id" string="Chi nh&#225;nh"/>
+                <field name="task_type" string="Nh&#243;m kh&#225;ch"/>
+                <field name="alert_level" string="C&#7843;nh b&#225;o l&#7847;n m&#7845;y"/>
+                <field name="total_spent" string="T&#7893;ng chi ti&#234;u"/>
+                <field name="last_transaction_date" string="Ng&#224;y giao d&#7883;ch cu&#7889;i"/>
+                <field name="days_absent" string="S&#7889; ng&#224;y ch&#432;a quay l&#7841;i"/>
+                <field name="pipeline_status" string="Tr&#7841;ng th&#225;i x&#7917; l&#253;"/>
+                <field name="assigned_user_id" string="Nh&#226;n vi&#234;n ph&#7909; tr&#225;ch"/>
+                <field name="due_date" string="Ng&#224;y h&#7865;n g&#7885;i l&#7841;i"/>
+                <field name="is_vip" string="VIP" optional="hide"/>
+                <field name="source_reason" string="L&#253; do c&#7847;n g&#7885;i" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_care_task_pivot" model="ir.ui.view">
+        <field name="name">ming.care.task.pivot</field>
+        <field name="model">ming.care.task</field>
+        <field name="arch" type="xml">
+            <pivot string="C&#244;ng vi&#7879;c CSKH">
+                <field name="branch_id" type="row"/>
+                <field name="pipeline_status" type="col"/>
+                <field name="assigned_user_id" type="row"/>
+                <field name="total_spent" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_ming_care_task_graph" model="ir.ui.view">
+        <field name="name">ming.care.task.graph</field>
+        <field name="model">ming.care.task</field>
+        <field name="arch" type="xml">
+            <graph string="C&#244;ng vi&#7879;c CSKH" type="bar">
+                <field name="branch_id"/>
+                <field name="pipeline_status"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_ming_care_task_form" model="ir.ui.view">
+        <field name="name">ming.care.task.form</field>
+        <field name="model">ming.care.task</field>
+        <field name="arch" type="xml">
+            <form string="C&#244;ng vi&#7879;c CSKH" create="false">
+                <header>
+                    <button name="action_start" type="object" string="Nh&#7853;n x&#7917; l&#253;" class="btn-primary" invisible="pipeline_status != 'pending'"/>
+                    <button name="action_log_call_result" type="object" string="Ghi nh&#7853;n k&#7871;t qu&#7843; g&#7885;i" class="btn-primary" invisible="pipeline_status in ('done', 'cancelled')"/>
+                    <button name="action_schedule_callback" type="object" string="H&#7865;n g&#7885;i l&#7841;i" invisible="pipeline_status in ('done', 'cancelled')"/>
+                    <button name="action_send_sms" type="object" string="G&#7917;i SMS" invisible="pipeline_status in ('done', 'cancelled')"/>
+                    <button name="action_send_email" type="object" string="G&#7917;i Email" invisible="pipeline_status in ('done', 'cancelled')"/>
+                    <button name="action_done" type="object" string="&#272;&#225;nh d&#7845;u ho&#224;n t&#7845;t" invisible="pipeline_status in ('done', 'cancelled')"/>
+                    <button name="action_cancel" type="object" string="H&#7911;y task" invisible="pipeline_status in ('done', 'cancelled')"/>
+                    <field name="pipeline_status" widget="statusbar" statusbar_visible="pending,in_progress,done,cancelled"/>
+                </header>
+                <sheet>
+                    <group string="Th&#244;ng tin kh&#225;ch h&#224;ng" col="4">
+                        <field name="partner_id" readonly="1" string="T&#234;n kh&#225;ch"/>
+                        <field name="customer_phone" readonly="1" string="S&#7889; &#273;i&#7879;n tho&#7841;i"/>
+                        <field name="customer_code" readonly="1" string="M&#227; kh&#225;ch h&#224;ng"/>
+                        <field name="branch_id" readonly="1" string="Chi nh&#225;nh"/>
+                        <field name="task_type" readonly="1" string="Nh&#243;m kh&#225;ch"/>
+                        <field name="total_spent" readonly="1" string="T&#7893;ng chi ti&#234;u"/>
+                        <field name="last_transaction_date" readonly="1" string="Ng&#224;y giao d&#7883;ch cu&#7889;i"/>
+                        <field name="days_absent" readonly="1" string="S&#7889; ng&#224;y ch&#432;a quay l&#7841;i"/>
+                        <field name="is_vip" readonly="1" string="Kh&#225;ch VIP"/>
+                        <field name="alert_level" readonly="1" string="M&#7913;c c&#7843;nh b&#225;o"/>
+                    </group>
+                    <group string="L&#253; do c&#7847;n g&#7885;i" col="4">
+                        <field name="source_reason" readonly="1" nolabel="1" colspan="4"/>
+                    </group>
+                    <group string="Vi&#7879;c c&#7847;n x&#7917; l&#253;" col="4">
+                        <field name="priority" readonly="1" string="M&#7913;c &#432;u ti&#234;n"/>
+                        <field name="pipeline_status" readonly="1" string="Tr&#7841;ng th&#225;i x&#7917; l&#253;"/>
+                        <field name="assigned_user_id" string="Nh&#226;n vi&#234;n ph&#7909; tr&#225;ch"/>
+                        <field name="due_date" string="Ng&#224;y h&#7865;n g&#7885;i l&#7841;i"/>
+                        <field name="completed_at" readonly="1" string="Ho&#224;n t&#7845;t l&#250;c"/>
+                    </group>
+                    <group string="K&#7871;t qu&#7843; cu&#7897;c g&#7885;i" col="4">
+                        <field name="latest_history_id" readonly="1" string="B&#7843;n ghi ch&#259;m s&#243;c g&#7847;n nh&#7845;t"/>
+                        <field name="call_result" readonly="1" string="K&#7871;t qu&#7843; ch&#259;m s&#243;c"/>
+                    </group>
+                    <group string="L&#7883;ch s&#7917; CSKH g&#7847;n nh&#7845;t" col="4">
+                        <field name="latest_history_id" readonly="1" string="L&#7883;ch s&#7917; g&#7847;n nh&#7845;t"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_care_task" model="ir.actions.act_window">
+        <field name="name">C&#7847;n g&#7885;i h&#244;m nay</field>
+        <field name="res_model">ming.care.task</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_ming_care_task_search"/>
+        <field name="domain">[('pipeline_status', '!=', 'cancelled')]</field>
+        <field name="context">{'search_default_my_today': 1, 'search_default_pending': 1, 'create': False}</field>
+    </record>
+
+    <record id="action_ming_manager_overdue_tasks" model="ir.actions.act_window">
+        <field name="name">C&#244;ng vi&#7879;c qu&#225; h&#7841;n</field>
+        <field name="res_model">ming.care.task</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_ming_care_task_search"/>
+        <field name="domain">[('due_date', '&lt;', context_today()), ('pipeline_status', 'not in', ('done', 'cancelled'))]</field>
+        <field name="context">{'search_default_overdue': 1, 'create': False}</field>
+    </record>
+</odoo>

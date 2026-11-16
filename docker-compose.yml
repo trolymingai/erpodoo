@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mingcrm-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: odoo_minghouse
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: 54b382ee8b824ddd9818
+    volumes:
+      - mingcrm-db-data:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:19.0
+    container_name: mingcrm-odoo
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - '18070:8069'
+      - '18069:8072'
+    volumes:
+      - /opt/mingcrm/addons:/mnt/extra-addons:ro
+      - /opt/mingcrm/odoo.conf:/etc/odoo/odoo.conf:ro
+      - mingcrm-odoo-data:/var/lib/odoo
+volumes:
+  mingcrm-db-data:
+  mingcrm-odoo-data:

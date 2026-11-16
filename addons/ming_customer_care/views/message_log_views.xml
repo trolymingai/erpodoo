@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_message_log_search" model="ir.ui.view">
+        <field name="name">ming.message.log.search</field>
+        <field name="model">ming.message.log</field>
+        <field name="arch" type="xml">
+            <search string="Tìm nhật ký gửi tin">
+                <field name="partner_id" string="Khách hàng" filter_domain="['|', '|', '|', ('partner_id.name', 'ilike', self), ('partner_id.phone', 'ilike', self), ('partner_id.ming_phone_normalized', 'ilike', self), ('partner_id.ming_pos_customer_code', 'ilike', self)]"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="channel" string="Kênh gửi"/>
+                <field name="recipient" string="Người nhận"/>
+                <field name="status" string="Trạng thái"/>
+                <filter name="today" string="Hôm nay" domain="[('create_date', '&gt;=', context_today())]"/>
+                <filter name="sms" string="SMS" domain="[('channel', '=', 'sms')]"/>
+                <filter name="email" string="Email" domain="[('channel', '=', 'email')]"/>
+                <filter name="lark" string="Lark" domain="[('channel', '=', 'lark')]"/>
+                <filter name="safe_mode" string="Ch&#7871; &#273;&#7897; an to&#224;n" domain="[('status', '=', 'safe_mode')]"/>
+                <filter name="test_mode" string="Ch&#7871; &#273;&#7897; ki&#7875;m th&#7917;" domain="[('test_mode', '=', True)]"/>
+                <filter name="sent" string="Đã gửi" domain="[('status', '=', 'sent')]"/>
+                <filter name="failed" string="Thất bại" domain="[('status', 'in', ('failed', 'provider_error'))]"/>
+                <filter name="blocked_consent" string="Chặn do consent" domain="[('status', '=', 'blocked_consent')]"/>
+                <filter name="blocked_budget" string="Chặn do ngân sách" domain="[('status', '=', 'blocked_budget')]"/>
+                <filter name="group_branch" string="Nhóm theo chi nhánh" context="{'group_by': 'branch_id'}"/>
+                <filter name="group_channel" string="Nhóm theo kênh gửi" context="{'group_by': 'channel'}"/>
+                <filter name="group_status" string="Nhóm theo trạng thái" context="{'group_by': 'status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ming_message_log_tree" model="ir.ui.view">
+        <field name="name">ming.message.log.tree</field>
+        <field name="model">ming.message.log</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" delete="false">
+                <field name="create_date" string="Thời gian"/>
+                <field name="partner_id" string="Khách hàng"/>
+                <field name="branch_id" string="Chi nhánh"/>
+                <field name="channel" string="Kênh"/>
+                <field name="recipient" string="Người nhận"/>
+                <field name="status" string="Trạng thái"/>
+                <field name="safe_mode" string="Ch&#7871; &#273;&#7897; an to&#224;n"/>
+                <field name="test_mode" string="Ch&#7871; &#273;&#7897; ki&#7875;m th&#7917;"/>
+                <field name="estimated_cost" string="Chi phí ước tính"/>
+                <field name="currency" string="Tiền tệ"/>
+                <field name="error_message" string="Lỗi / ghi chú"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_message_log_form" model="ir.ui.view">
+        <field name="name">ming.message.log.form</field>
+        <field name="model">ming.message.log</field>
+        <field name="arch" type="xml">
+            <form string="Nhật ký gửi tin" create="false" edit="false" delete="false">
+                <sheet>
+                    <group string="Thông tin gửi tin" col="4">
+                        <field name="partner_id"/>
+                        <field name="branch_id"/>
+                        <field name="channel"/>
+                        <field name="recipient"/>
+                        <field name="subject"/>
+                        <field name="status"/>
+                        <field name="safe_mode"/>
+                        <field name="test_mode"/>
+                        <field name="provider"/>
+                        <field name="provider_message_id"/>
+                        <field name="sent_at"/>
+                        <field name="created_by"/>
+                    </group>
+                    <group string="Chi phí" col="4">
+                        <field name="estimated_cost"/>
+                        <field name="actual_cost"/>
+                        <field name="currency"/>
+                    </group>
+                    <group string="Liên kết" col="4">
+                        <field name="related_task_id"/>
+                        <field name="related_history_id"/>
+                        <field name="related_model"/>
+                        <field name="related_res_id"/>
+                    </group>
+                    <group string="Nội dung và lỗi">
+                        <field name="content" nolabel="1"/>
+                        <field name="error_message" nolabel="1"/>
+                        <field name="raw_response" nolabel="1" groups="ming_customer_care.group_ming_founder_admin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_message_log" model="ir.actions.act_window">
+        <field name="name">Tin nhắn đã gửi</field>
+        <field name="res_model">ming.message.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_ming_message_log_search"/>
+        <field name="context">{'create': False}</field>
+    </record>
+</odoo>

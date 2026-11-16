@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm.crm_menu_root" model="ir.ui.menu">
+        <field name="name">CRM</field>
+        <field name="group_ids" eval="[(6, 0, [ref('sales_team.group_sale_manager'), ref('ming_customer_care.group_ming_founder_admin')])]"/>
+    </record>
+
+    <menuitem
+        id="menu_ming_customer_care_app"
+        name="Ming Customer Care"
+        action="action_ming_role_landing"
+        sequence="58"
+        groups="ming_customer_care.group_ming_cskh_staff,ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+    />
+
+    <menuitem id="menu_ming_dashboard" name="B&#7843;ng &#273;i&#7873;u h&#224;nh" parent="menu_ming_customer_care_app" action="action_ming_dashboard" sequence="1"/>
+    <menuitem id="menu_ming_tasks" name="C&#7847;n g&#7885;i h&#244;m nay" parent="menu_ming_customer_care_app" action="action_ming_care_task" sequence="2"/>
+    <menuitem id="menu_ming_customers" name="Kh&#225;ch h&#224;ng CSKH" parent="menu_ming_customer_care_app" action="action_ming_customer_list" sequence="3"/>
+      <menuitem id="menu_ming_returned_customers" name="Kh&#225;ch h&#224;ng &#273;&#227; quay l&#7841;i" parent="menu_ming_customer_care_app" action="action_ming_returned_customers" sequence="4" active="False"/>
+    <menuitem id="menu_ming_purchase_history" name="L&#7883;ch s&#7917; mua h&#224;ng" parent="menu_ming_customer_care_app" action="action_ming_purchase_history" sequence="5"/>
+    <menuitem id="menu_ming_alerts" name="C&#7843;nh b&#225;o gi&#7919; ch&#226;n" parent="menu_ming_customer_care_app" action="action_ming_retention_alert" sequence="6"/>
+    <menuitem id="menu_ming_history" name="L&#7883;ch s&#7917; CSKH" parent="menu_ming_customer_care_app" action="action_ming_care_history" sequence="7"/>
+    <menuitem id="menu_ming_messages" name="Tin nh&#7855;n &#273;&#227; g&#7917;i" parent="menu_ming_customer_care_app" action="action_ming_message_log" sequence="8"/>
+
+    <menuitem
+        id="menu_ming_import"
+        name="Nh&#7853;p d&#7919; li&#7879;u"
+        parent="menu_ming_customer_care_app"
+        action="action_ming_customer_import_wizard"
+        sequence="9"
+        groups="ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+    />
+    <menuitem
+        id="menu_ming_import_history"
+        name="L&#7883;ch s&#7917; import POS"
+        parent="menu_ming_customer_care_app"
+        action="action_ming_pos_import_batch"
+        sequence="10"
+        groups="ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+    />
+    <menuitem
+        id="menu_ming_import_audit"
+        name="Nhật ký nhập liệu"
+        parent="menu_ming_customer_care_app"
+        action="action_ming_import_job"
+        sequence="11"
+        groups="ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+    />
+
+    <menuitem
+        id="menu_ming_reports"
+        name="B&#225;o c&#225;o"
+        parent="menu_ming_customer_care_app"
+        sequence="30"
+        groups="ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+    />
+    <menuitem id="menu_ming_report_customers" name="Kh&#225;ch h&#224;ng theo tr&#7841;ng th&#225;i" parent="menu_ming_reports" action="action_ming_report_customers" sequence="1"/>
+    <menuitem id="menu_ming_report_tasks" name="C&#244;ng vi&#7879;c theo tr&#7841;ng th&#225;i" parent="menu_ming_reports" action="action_ming_report_tasks" sequence="2"/>
+    <menuitem id="menu_ming_report_alerts" name="C&#7843;nh b&#225;o l&#7847;n 1 / 2 / 3 / VIP" parent="menu_ming_reports" action="action_ming_report_alerts" sequence="3"/>
+    <menuitem id="menu_ming_report_sales" name="S&#7843;n ph&#7849;m v&#224; doanh thu" parent="menu_ming_reports" action="action_ming_report_sales" sequence="4"/>
+    <menuitem
+        id="menu_ming_manager"
+        name="Qu&#7843;n l&#253; chi nh&#225;nh"
+        parent="menu_ming_reports"
+        sequence="5"
+        groups="ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+    />
+    <menuitem id="menu_ming_manager_overdue" name="C&#244;ng vi&#7879;c qu&#225; h&#7841;n" parent="menu_ming_manager" action="action_ming_manager_overdue_tasks" sequence="1"/>
+    <menuitem id="menu_ming_manager_vip_risk" name="Kh&#225;ch VIP c&#243; nguy c&#417;" parent="menu_ming_manager" action="action_ming_vip_risk_customers" sequence="2"/>
+    <menuitem id="menu_ming_manager_history" name="Hi&#7879;u su&#7845;t nh&#226;n vi&#234;n" parent="menu_ming_manager" action="action_ming_report_histories" sequence="3"/>
+    <menuitem id="menu_ming_manager_logs" name="C&#7843;nh b&#225;o Lark / log safe mode" parent="menu_ming_manager" action="action_ming_message_log" sequence="4"/>
+
+    <menuitem
+        id="menu_ming_config"
+        name="C&#7845;u h&#236;nh"
+        parent="menu_ming_customer_care_app"
+        sequence="90"
+        groups="ming_customer_care.group_ming_founder_admin"
+    />
+    <menuitem id="menu_ming_branches" name="Chi nh&#225;nh" parent="menu_ming_config" action="action_ming_branch" sequence="1" groups="ming_customer_care.group_ming_founder_admin"/>
+    <menuitem id="menu_ming_segment_config" name="Rule c&#7843;nh b&#225;o v&#224; connector" parent="menu_ming_config" action="action_ming_segment_config" sequence="2" groups="ming_customer_care.group_ming_founder_admin"/>
+    <menuitem id="menu_ming_message_config" name="C&#7845;u h&#236;nh g&#7917;i SMS/Email" parent="menu_ming_config" action="action_ming_segment_config" sequence="3" groups="ming_customer_care.group_ming_founder_admin"/>
+    <menuitem id="menu_ming_external_customer_map" name="B&#7843;n &#273;&#7891; d&#7919; li&#7879;u kh&#225;ch ngo&#224;i h&#7879; th&#7889;ng" parent="menu_ming_config" action="action_ming_external_customer_map" sequence="4" groups="ming_customer_care.group_ming_founder_admin"/>
+    <menuitem id="menu_ming_external_sync_log" name="Nh&#7853;t k&#253; &#273;&#7891;ng b&#7897;" parent="menu_ming_config" action="action_ming_external_sync_log" sequence="5" groups="ming_customer_care.group_ming_founder_admin"/>
+</odoo>
+

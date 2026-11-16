@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_segment_config_tree" model="ir.ui.view">
+        <field name="name">ming.segment.config.tree</field>
+        <field name="model">ming.segment.config</field>
+        <field name="arch" type="xml">
+            <list>
+               <field name="display_name"/>
+               <field name="branch_id"/>
+                <field name="active"/>
+               <field name="safe_mode"/>
+                <field name="test_mode"/>
+                <field name="sms_enabled"/>
+                <field name="email_enabled"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_segment_config_form" model="ir.ui.view">
+        <field name="name">ming.segment.config.form</field>
+        <field name="model">ming.segment.config</field>
+        <field name="arch" type="xml">
+            <form string="Cấu hình vận hành">
+                <header>
+                    <button name="action_notify_cost_saved" type="object" string="Lưu cấu hình chi phí" class="btn-primary"/>
+                    <button name="action_test_sms_connector" type="object" string="Kiểm tra SMS"/>
+                    <button name="action_test_email_connector" type="object" string="Kiểm tra email"/>
+                    <button name="action_test_lark_connector" type="object" string="Kiểm tra Lark"/>
+                </header>
+                <sheet>
+                    <group col="4" string="Ngưỡng phân loại">
+                       <field name="display_name"/>
+                       <field name="branch_id"/>
+                        <field name="active"/>
+                       <field name="active_days_threshold"/>
+                        <field name="lost_days_threshold"/>
+                        <field name="vip_percent"/>
+                        <field name="alert_2_after_days"/>
+                        <field name="alert_3_after_days"/>
+                        <field name="conversion_window_days"/>
+                    </group>
+                    <notebook>
+                        <page string="An toàn gửi tin">
+                            <group col="4">
+                                <field name="safe_mode"/>
+                                <field name="test_mode"/>
+                                <field name="sms_enabled"/>
+                                <field name="email_enabled"/>
+                                <field name="send_sms_enabled"/>
+                                <field name="send_email_enabled"/>
+                                <field name="send_lark_enabled"/>
+                                <field name="require_cost_confirmation"/>
+                                <field name="max_sms_per_day"/>
+                                <field name="max_email_per_day"/>
+                            </group>
+                            <group string="Whitelist test" col="2">
+                                <field name="sms_test_whitelist" placeholder="Mỗi dòng một số điện thoại hoặc phân cách bằng dấu phẩy"/>
+                                <field name="email_test_whitelist" placeholder="Mỗi dòng một email hoặc phân cách bằng dấu phẩy"/>
+                            </group>
+                        </page>
+                        <page string="Nhà cung cấp SMS">
+                            <group col="4">
+                                <field name="sms_provider_name"/>
+                                <field name="sms_provider"/>
+                                <field name="sms_api_url"/>
+                                <field name="sms_api_key" password="True"/>
+                                <field name="sms_brandname"/>
+                                <field name="sms_sender_id"/>
+                                <field name="sms_sender_name"/>
+                                <field name="test_sms_number"/>
+                            </group>
+                        </page>
+                        <page string="Email">
+                            <group col="4">
+                                <field name="smtp_sender_name"/>
+                                <field name="smtp_sender_email"/>
+                                <field name="default_email_from"/>
+                                <field name="default_reply_to"/>
+                                <field name="test_email_to"/>
+                            </group>
+                        </page>
+                        <page string="Chi phí">
+                            <group col="4">
+                                <field name="message_currency"/>
+                                <field name="sms_unit_cost"/>
+                                <field name="email_unit_cost"/>
+                                <field name="sms_monthly_package_cost"/>
+                                <field name="email_monthly_package_cost"/>
+                                <field name="daily_sms_budget_limit"/>
+                                <field name="daily_email_budget_limit"/>
+                            </group>
+                            <div class="alert alert-info" role="alert">
+                                Giá SMS/Email phải do Admin nhập theo báo giá thật của nhà cung cấp. Nếu chưa cấu hình đơn giá, hệ thống vẫn cho chạy safe mode/test log nhưng không cho gửi thật ra khách.
+                            </div>
+                        </page>
+                        <page string="Mẫu nội dung">
+                            <group col="2">
+                                <field name="sms_template_level_1"/>
+                                <field name="sms_template_level_2"/>
+                                <field name="sms_template_level_3"/>
+                                <field name="sms_template_winback"/>
+                                <field name="email_template_subject"/>
+                                <field name="email_template_body"/>
+                                <field name="lark_template_alert"/>
+                            </group>
+                        </page>
+                        <page string="Mapping KiotViet">
+                            <group col="2">
+                                <field name="kiotviet_customer_code_key"/>
+                                <field name="kiotviet_phone_key"/>
+                                <field name="kiotviet_email_key"/>
+                                <field name="kiotviet_total_spent_key"/>
+                                <field name="kiotviet_last_transaction_key"/>
+                            </group>
+                        </page>
+                        <page string="Đọc dữ liệu POS">
+                            <div class="alert alert-info" role="alert">
+                                Hệ thống luôn đọc dữ liệu theo tên cột đã cấu hình. Khi chưa có API và thông tin xác thực, hãy dùng tệp POS/Excel; không tự bật kết nối trực tiếp.
+                            </div>
+                            <group string="Nguồn đọc dữ liệu" col="2">
+                                <field name="pos_connection_mode"/>
+                                <field name="pos_api_base_url"/>
+                                <field name="pos_api_key"/>
+                                <field name="pos_api_secret" password="True"/>
+                            </group>
+                            <group string="Tên cột dữ liệu POS" col="2">
+                                <field name="pos_customer_code_key"/>
+                                <field name="pos_customer_name_key"/>
+                                <field name="pos_note_name_key"/>
+                                <field name="pos_phone_key"/>
+                                <field name="pos_branch_key"/>
+                                <field name="pos_total_spent_key"/>
+                                <field name="pos_loyalty_points_key"/>
+                                <field name="pos_last_transaction_key"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_segment_config" model="ir.actions.act_window">
+        <field name="name">Cấu hình vận hành</field>
+        <field name="res_model">ming.segment.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

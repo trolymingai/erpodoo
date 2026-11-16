@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_dashboard_board_form_brand" model="ir.ui.view">
+        <field name="name">ming.dashboard.board.form.brand</field>
+        <field name="model">ming.dashboard.board</field>
+        <field name="inherit_id" ref="ming_customer_care.view_ming_dashboard_board_form"/>
+        <field name="active" eval="False"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="class" remove="o_ming_dashboard_view" separator=" "/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

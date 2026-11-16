@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_ming_report_customers" model="ir.actions.act_window">
+        <field name="name">Kh&#225;ch h&#224;ng theo tr&#7841;ng th&#225;i</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="domain">['|', ('ming_pos_customer_code', '!=', False), '&amp;', ('ming_source_system', '!=', False), ('ming_branch_id', '!=', False)]</field>
+        <field name="context">{'search_default_filter_ming_customers': 1, 'create': False}</field>
+    </record>
+
+    <record id="action_ming_report_tasks" model="ir.actions.act_window">
+        <field name="name">C&#244;ng vi&#7879;c theo tr&#7841;ng th&#225;i</field>
+        <field name="res_model">ming.care.task</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="action_ming_report_alerts" model="ir.actions.act_window">
+        <field name="name">C&#7843;nh b&#225;o l&#7847;n 1 / 2 / 3 / VIP</field>
+        <field name="res_model">ming.retention.alert</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="action_ming_report_histories" model="ir.actions.act_window">
+        <field name="name">Hi&#7879;u su&#7845;t nh&#226;n vi&#234;n</field>
+        <field name="res_model">ming.care.history</field>
+        <field name="view_mode">pivot,graph,list,form</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="action_ming_report_sales" model="ir.actions.act_window">
+        <field name="name">S&#7843;n ph&#7849;m v&#224; doanh thu</field>
+        <field name="res_model">ming.sales.product.line</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <record id="view_ming_dashboard_board_form" model="ir.ui.view">
+        <field name="name">ming.dashboard.board.form</field>
+        <field name="model">ming.dashboard.board</field>
+        <field name="arch" type="xml">
+            <form string="B&#7843;ng &#273;i&#7873;u h&#224;nh CSKH Ming" create="false" edit="false" delete="false">
+                <sheet class="ming-dashboard-sheet">
+                    <div class="ming-dashboard">
+                        <section class="ming-section">
+                            <div class="ming-section-heading">
+                                <h2 class="ming-section-title">KPI Kh&#225;ch h&#224;ng</h2>
+                            </div>
+                            <div class="ming-kpi-grid ming-kpi-grid--six">
+                                <button name="%(action_ming_customer_list)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-users"/>
+                                    <span class="ming-kpi-label">T&#7893;ng kh&#225;ch h&#224;ng</span>
+                                    <span class="ming-kpi-value"><field name="total_customers" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_report_customers)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-heart"/>
+                                    <span class="ming-kpi-label">&#272;ang ho&#7841;t &#273;&#7897;ng</span>
+                                    <span class="ming-kpi-value"><field name="active_customers" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_report_customers)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-exclamation-triangle"/>
+                                    <span class="ming-kpi-label">C&#243; nguy c&#417;</span>
+                                    <span class="ming-kpi-value"><field name="at_risk_customers" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_report_customers)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-user-times"/>
+                                    <span class="ming-kpi-label">&#272;&#227; m&#7845;t</span>
+                                    <span class="ming-kpi-value"><field name="lost_customers" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_customer_list)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-star"/>
+                                    <span class="ming-kpi-label">T&#7893;ng VIP</span>
+                                    <span class="ming-kpi-value"><field name="vip_customers" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_vip_risk_customers)d" type="action" class="btn btn-link ming-kpi-card ming-kpi-card--accent">
+                                    <span class="ming-kpi-icon fa fa-bell"/>
+                                    <span class="ming-kpi-label">VIP c&#243; nguy c&#417;</span>
+                                    <span class="ming-kpi-value"><field name="vip_at_risk_customers" readonly="1" nolabel="1"/></span>
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="ming-section">
+                            <div class="ming-section-heading">
+                                <h2 class="ming-section-title">KPI V&#7853;n h&#224;nh h&#244;m nay</h2>
+                            </div>
+                            <div class="ming-kpi-grid ming-kpi-grid--six">
+                                <button name="action_open_today_tasks" type="object" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-phone"/>
+                                    <span class="ming-kpi-label">C&#244;ng vi&#7879;c h&#244;m nay</span>
+                                    <span class="ming-kpi-value"><field name="tasks_today" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_care_task)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-clock-o"/>
+                                    <span class="ming-kpi-label">Ch&#432;a x&#7917; l&#253;</span>
+                                    <span class="ming-kpi-value"><field name="pending_tasks" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_care_task)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-play"/>
+                                    <span class="ming-kpi-label">&#272;ang x&#7917; l&#253;</span>
+                                    <span class="ming-kpi-value"><field name="in_progress_tasks" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="action_open_overdue_tasks" type="object" class="btn btn-link ming-kpi-card ming-kpi-card--warning">
+                                    <span class="ming-kpi-icon fa fa-warning"/>
+                                    <span class="ming-kpi-label">Qu&#225; h&#7841;n</span>
+                                    <span class="ming-kpi-value"><field name="overdue_tasks" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_report_tasks)d" type="action" class="btn btn-link ming-kpi-card ming-kpi-card--success">
+                                    <span class="ming-kpi-icon fa fa-check-circle"/>
+                                    <span class="ming-kpi-label">Ho&#224;n t&#7845;t h&#244;m nay</span>
+                                    <span class="ming-kpi-value"><field name="done_today_tasks" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_report_tasks)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-line-chart"/>
+                                    <span class="ming-kpi-label">T&#7927; l&#7879; ho&#224;n t&#7845;t h&#244;m nay</span>
+                                    <span class="ming-kpi-value">
+                                        <field name="task_completion_rate" readonly="1" nolabel="1" widget="float" options="{'precision': 2}"/>
+                                        <span class="ming-kpi-suffix">%</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="ming-section">
+                            <div class="ming-section-heading">
+                                <h2 class="ming-section-title">C&#7843;nh b&#225;o &amp; Nh&#7853;t k&#253;</h2>
+                            </div>
+                            <div class="ming-kpi-grid ming-kpi-grid--five">
+                                <button name="action_open_alerts" type="object" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-bell-o"/>
+                                    <span class="ming-kpi-label">C&#7843;nh b&#225;o l&#7847;n 1</span>
+                                    <span class="ming-kpi-value"><field name="alert_level_1_count" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="action_open_alerts" type="object" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-bell-o"/>
+                                    <span class="ming-kpi-label">C&#7843;nh b&#225;o l&#7847;n 2</span>
+                                    <span class="ming-kpi-value"><field name="alert_level_2_count" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="action_open_alerts" type="object" class="btn btn-link ming-kpi-card ming-kpi-card--alert">
+                                    <span class="ming-kpi-icon fa fa-bell"/>
+                                    <span class="ming-kpi-label">C&#7843;nh b&#225;o l&#7847;n 3</span>
+                                    <span class="ming-kpi-value"><field name="alert_level_3_count" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="%(action_ming_care_history)d" type="action" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-commenting-o"/>
+                                    <span class="ming-kpi-label">Ph&#7843;n h&#7891;i ti&#234;u c&#7921;c</span>
+                                    <span class="ming-kpi-value"><field name="negative_feedback_count" readonly="1" nolabel="1"/></span>
+                                </button>
+                                <button name="action_open_messages" type="object" class="btn btn-link ming-kpi-card">
+                                    <span class="ming-kpi-icon fa fa-envelope-o"/>
+                                    <span class="ming-kpi-label">Message log / safe mode</span>
+                                    <span class="ming-kpi-value"><field name="message_log_count" readonly="1" nolabel="1"/></span>
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="ming-section ming-section--actions">
+                            <div class="ming-section-heading">
+                                <h2 class="ming-section-title">H&#224;nh &#273;&#7897;ng nhanh</h2>
+                            </div>
+                            <div class="ming-quick-actions">
+                                <button name="%(action_ming_care_task)d" type="action" class="btn ming-action-card ming-action-card--primary">
+                                    <span class="ming-action-icon fa fa-phone"/>
+                                    <span class="ming-action-label">C&#7847;n g&#7885;i h&#244;m nay</span>
+                                </button>
+                                <button name="%(action_ming_customer_list)d" type="action" class="btn ming-action-card">
+                                    <span class="ming-action-icon fa fa-users"/>
+                                    <span class="ming-action-label">Kh&#225;ch h&#224;ng CSKH</span>
+                                </button>
+                                <button name="%(action_ming_retention_alert)d" type="action" class="btn ming-action-card">
+                                    <span class="ming-action-icon fa fa-bell-o"/>
+                                    <span class="ming-action-label">C&#7843;nh b&#225;o gi&#7919; ch&#226;n</span>
+                                </button>
+                                <button name="%(action_ming_care_history)d" type="action" class="btn ming-action-card">
+                                    <span class="ming-action-icon fa fa-history"/>
+                                    <span class="ming-action-label">L&#7883;ch s&#7917; CSKH</span>
+                                </button>
+                                <button name="%(action_ming_message_log)d" type="action" class="btn ming-action-card">
+                                    <span class="ming-action-icon fa fa-envelope-o"/>
+                                    <span class="ming-action-label">Tin nh&#7855;n &#273;&#227; g&#7917;i</span>
+                                </button>
+                                <button
+                                    name="%(action_ming_customer_import_wizard)d"
+                                    type="action"
+                                    class="btn ming-action-card"
+                                    groups="ming_customer_care.group_ming_branch_manager,ming_customer_care.group_ming_founder_admin"
+                                >
+                                    <span class="ming-action-icon fa fa-upload"/>
+                                    <span class="ming-action-label">Nh&#7853;p d&#7919; li&#7879;u</span>
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="ming-section ming-section--reports">
+                            <div class="ming-section-heading">
+                                <h2 class="ming-section-title">B&#225;o c&#225;o nhanh</h2>
+                            </div>
+                            <notebook class="ming-report-tabs">
+                                <page string="C&#7847;n g&#7885;i h&#244;m nay">
+                                    <field name="today_task_ids" nolabel="1">
+                                        <list create="false" edit="false" delete="false">
+                                            <field name="partner_id" string="Kh&#225;ch h&#224;ng"/>
+                                            <field name="branch_id" string="Chi nh&#225;nh"/>
+                                            <field name="assigned_user_id" string="Nh&#226;n vi&#234;n"/>
+                                            <field name="is_vip" string="VIP"/>
+                                            <field name="total_spent" string="T&#7893;ng chi ti&#234;u"/>
+                                            <field name="alert_level" string="M&#7913;c c&#7843;nh b&#225;o"/>
+                                            <field name="due_date" string="Ng&#224;y g&#7885;i"/>
+                                            <field name="pipeline_status" string="Tr&#7841;ng th&#225;i"/>
+                                        </list>
+                                    </field>
+                                </page>
+                                <page string="C&#244;ng vi&#7879;c qu&#225; h&#7841;n">
+                                    <field name="overdue_task_ids" nolabel="1">
+                                        <list create="false" edit="false" delete="false">
+                                            <field name="partner_id" string="Kh&#225;ch h&#224;ng"/>
+                                            <field name="branch_id" string="Chi nh&#225;nh"/>
+                                            <field name="assigned_user_id" string="Nh&#226;n vi&#234;n"/>
+                                            <field name="is_vip" string="VIP"/>
+                                            <field name="total_spent" string="T&#7893;ng chi ti&#234;u"/>
+                                            <field name="due_date" string="Ng&#224;y g&#7885;i"/>
+                                            <field name="pipeline_status" string="Tr&#7841;ng th&#225;i"/>
+                                        </list>
+                                    </field>
+                                </page>
+                                <page string="Kh&#225;ch VIP c&#243; nguy c&#417;">
+                                    <field name="vip_risk_partner_ids" nolabel="1">
+                                        <list create="false" edit="false" delete="false">
+                                            <field name="name" string="Kh&#225;ch h&#224;ng"/>
+                                            <field name="ming_branch_id" string="Chi nh&#225;nh"/>
+                                            <field name="ming_total_spent" string="T&#7893;ng chi ti&#234;u"/>
+                                            <field name="ming_days_absent" string="S&#7889; ng&#224;y v&#7855;ng"/>
+                                            <field name="ming_alert_level" string="M&#7913;c c&#7843;nh b&#225;o"/>
+                                        </list>
+                                    </field>
+                                </page>
+                                <page string="Hi&#7879;u su&#7845;t nh&#226;n vi&#234;n">
+                                    <field name="employee_task_summary" widget="html" nolabel="1"/>
+                                </page>
+                                <page string="Hi&#7879;u su&#7845;t chi nh&#225;nh">
+                                    <field name="branch_task_summary" widget="html" nolabel="1"/>
+                                </page>
+                                <page string="Top chi nh&#225;nh nguy c&#417;">
+                                    <field name="risk_branch_summary" widget="html" nolabel="1"/>
+                                </page>
+                                <page string="Top s&#7843;n ph&#7849;m / doanh thu">
+                                    <field name="product_revenue_summary" widget="html" nolabel="1"/>
+                                </page>
+                            </notebook>
+                        </section>
+                    </div>
+                    <field name="name" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_dashboard" model="ir.actions.act_window">
+        <field name="name">B&#7843;ng &#273;i&#7873;u h&#224;nh</field>
+        <field name="res_model">ming.dashboard.board</field>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="ming_customer_care.dashboard_main"/>
+    </record>
+
+    <record id="action_ming_role_landing" model="ir.actions.server">
+        <field name="name">Ming Customer Care Role Landing</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="state">code</field>
+        <field name="code"><![CDATA[
+if env.user.has_group('ming_customer_care.group_ming_founder_admin') or env.user.has_group('ming_customer_care.group_ming_branch_manager'):
+    action = {
+        'type': 'ir.actions.act_window',
+        'name': 'B\u1ea3ng \u0111i\u1ec1u h\u00e0nh',
+        'res_model': 'ming.dashboard.board',
+        'view_mode': 'form',
+        'res_id': env.ref('ming_customer_care.dashboard_main').id,
+    }
+else:
+    action = {
+        'type': 'ir.actions.act_window',
+        'name': 'C\u1ea7n g\u1ecdi h\u00f4m nay',
+        'res_model': 'ming.care.task',
+        'view_mode': 'list,form,pivot,graph',
+        'domain': [('pipeline_status', '!=', 'cancelled')],
+        'context': {'search_default_today': 1, 'create': False},
+    }
+        ]]></field>
+    </record>
+
+</odoo>

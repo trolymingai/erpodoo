@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_ming_customer_care" model="ir.ui.view">
+        <field name="name">res.users.form.ming.customer.care</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Ming Customer Care">
+                    <group>
+                        <field name="ming_default_branch_id" string="Chi nhánh mặc định"/>
+                        <field name="ming_branch_ids" widget="many2many_tags" string="Chi nhánh được xem"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ming_branch_tree" model="ir.ui.view">
+        <field name="name">ming.branch.tree</field>
+        <field name="model">ming.branch</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code" string="Mã chi nhánh"/>
+                <field name="name" string="Tên chi nhánh"/>
+                <field name="brand" string="Thương hiệu"/>
+                <field name="manager_id" string="Quản lý chi nhánh"/>
+                <field name="active" string="Đang hoạt động"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ming_branch_form" model="ir.ui.view">
+        <field name="name">ming.branch.form</field>
+        <field name="model">ming.branch</field>
+        <field name="arch" type="xml">
+            <form string="Chi nhánh">
+                <sheet>
+                    <group col="4">
+                        <field name="code" string="Mã chi nhánh"/>
+                        <field name="name" string="Tên chi nhánh"/>
+                        <field name="source_aliases" string="Tên/mã từ nguồn dữ liệu" placeholder="Mỗi dòng một tên hoặc mã từ POS/KiotViet"/>
+                        <field name="brand" string="Thương hiệu"/>
+                        <field name="manager_id" string="Quản lý chi nhánh"/>
+                        <field name="lark_webhook_url" string="Webhook Lark"/>
+                        <field name="active" string="Đang hoạt động"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ming_branch" model="ir.actions.act_window">
+        <field name="name">Chi nhánh</field>
+        <field name="res_model">ming.branch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
